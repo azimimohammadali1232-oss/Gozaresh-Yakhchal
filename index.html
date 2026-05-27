@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>گزارش روزانه بازسازی</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.31.0/webfont/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f4f0;--bg2:#eeecea;--card:#fff;
+  --border:#ddd;--border2:#e8e6e2;
+  --text:#1a1a18;--text2:#6b6860;--text3:#9c9a96;
+  --blue:#2563eb;--blue-bg:#eff6ff;--blue-border:#bfdbfe;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-border:#bbf7d0;
+  --amber:#d97706;--amber-bg:#fffbeb;--amber-border:#fde68a;
+  --red:#dc2626;--red-bg:#fef2f2;
+  --radius:10px;--radius-sm:6px;
+  --shadow:0 1px 3px rgba(0,0,0,.08);
+}
+body{background:var(--bg);font-family:Tahoma,sans-serif;font-size:14px;color:var(--text);min-height:100vh}
+.header{background:var(--card);border-bottom:1px solid var(--border2);padding:14px 20px;position:sticky;top:0;z-index:10;box-shadow:var(--shadow)}
+.header-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.header-title{font-size:15px;font-weight:600}
+.header-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.phase-badge{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);white-space:nowrap}
+.tabs{background:var(--card);border-bottom:1px solid var(--border2)}
+.tabs-inner{max-width:680px;margin:0 auto;display:flex}
+.tab{padding:10px 18px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);display:flex;align-items:center;gap:5px;transition:all .15s}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:500}
+.main{max-width:680px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--border2);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow)}
+.card-header{padding:12px 16px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;background:var(--bg2)}
+.card-header i{font-size:16px}
+.card-body{padding:14px 16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:12px;color:var(--text2);font-weight:500}
+input,select,textarea{width:100%;font-size:13px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff;color:var(--text);font-family:inherit;transition:border .15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
+textarea{resize:vertical;min-height:56px}
+.checklist{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.citem{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:13px;background:#fff;user-select:none;transition:all .15s}
+.citem:hover{border-color:#aaa}
+.citem.on{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
+.citem i{font-size:17px;flex-shrink:0}
+.act-hdr,.mat-hdr{display:grid;gap:8px;font-size:11px;color:var(--text3);margin-bottom:4px;padding:0 2px;font-weight:600;text-transform:uppercase}
+.act-hdr{grid-template-columns:2fr 65px 80px 28px}
+.mat-hdr{grid-template-columns:2fr 60px 100px 100px 28px}
+.act-row{display:grid;grid-template-columns:2fr 65px 80px 28px;gap:8px;align-items:center;margin-bottom:7px}
+.mat-row{display:grid;grid-template-columns:2fr 60px 100px 100px 28px;gap:8px;align-items:center;margin-bottom:7px}
+.issue-row{display:grid;grid-template-columns:1fr 28px;gap:8px;align-items:start;margin-bottom:8px}
+.add-btn{background:none;border:1px dashed var(--border);color:var(--text2);border-radius:var(--radius-sm);padding:7px 12px;cursor:pointer;font-size:12px;width:100%;margin-top:4px;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:4px;transition:background .15s}
+.add-btn:hover{background:var(--bg)}
+.del-btn{background:none;border:none;cursor:pointer;color:#ccc;padding:0;font-size:17px;display:flex;align-items:center;transition:color .15s}
+.del-btn:hover{color:var(--red)}
+.total-box{background:var(--bg2);border-radius:var(--radius-sm);padding:10px 14px;margin-top:10px}
+.total-row{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.total-amt{font-size:16px;font-weight:700;color:var(--blue)}
+.pay-summary{display:flex;gap:8px;margin-top:8px}
+.pay-card{flex:1;background:#fff;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:8px 12px;font-size:12px}
+.pay-card .lbl{color:var(--text2);margin-bottom:3px}
+.pay-card .val{font-weight:600;font-size:13px}
+.upload-zone{border:1.5px dashed var(--border);border-radius:var(--radius);padding:22px;text-align:center;cursor:pointer;color:var(--text2);font-size:13px;position:relative;transition:all .15s}
+.upload-zone:hover{background:var(--bg);border-color:#aaa}
+.upload-zone i{font-size:30px;display:block;margin-bottom:8px;color:var(--text3)}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:10px}
+.photo-card{border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border2);background:var(--bg2);position:relative}
+.photo-card img{width:100%;height:95px;object-fit:cover;display:block}
+.photo-card .cap input{font-size:11px;padding:5px 7px;border:none;border-top:1px solid var(--border2);border-radius:0;background:#fff}
+.photo-card .del-photo{position:absolute;top:4px;left:4px;background:rgba(0,0,0,.5);color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;padding:4px 0 8px}
+.btn{padding:9px 18px;border-radius:var(--radius-sm);font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;display:flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;color:var(--text);transition:all .15s}
+.btn:hover{background:var(--bg)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover{background:#1d4ed8}
+.btn.success{background:var(--green);border-color:var(--green);color:#fff}
+.btn.success:hover{background:#15803d}
+.toast{position:fixed;bottom:24px;right:50%;transform:translateX(50%);background:#1a1a18;color:#fff;font-size:13px;padding:10px 20px;border-radius:20px;display:none;align-items:center;gap:8px;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.2);white-space:nowrap}
+.toast.show{display:flex}
+.toast.error{background:var(--red)}
+.preview-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:16px;font-size:13px;line-height:2;white-space:pre-wrap;direction:rtl;text-align:right;max-height:420px;overflow-y:auto}
+.arch-item{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border2)}
+.arch-item:last-child{border:none}
+.badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500}
+.badge.ok{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.badge.warn{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+.info-box{background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;margin-bottom:12px;line-height:1.7}
+.info-box a{color:var(--blue);font-weight:600}
+.step{display:flex;gap:10px;margin-bottom:10px;font-size:13px;line-height:1.6}
+.step-num{background:var(--blue);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+@media(max-width:500px){
+  .grid3{grid-template-columns:1fr 1fr}
+  .mat-hdr,.mat-row{grid-template-columns:1fr 50px 28px}
+  .checklist{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <div class="header-title">گزارش روزانه بازسازی</div>
+      <div class="header-sub" id="proj-sub"></div>
+    </div>
+    <span class="phase-badge"><i class="ti ti-hammer"></i> تخریب و آماده‌سازی</span>
+  </div>
+</div>
+<div class="tabs">
+  <div class="tabs-inner">
+    <div class="tab active" onclick="sw('form',this)"><i class="ti ti-edit"></i>فرم</div>
+    <div class="tab" onclick="sw('preview',this)"><i class="ti ti-file-text"></i>پیش‌نمایش</div>
+    <div class="tab" onclick="sw('archive',this)"><i class="ti ti-archive"></i>آرشیو</div>
+    <div class="tab" onclick="sw('settings',this)"><i class="ti ti-settings"></i>تنظیمات</div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="main" id="tab-form">
+<div class="card">
+  <div class="card-header"><i class="ti ti-info-circle"></i>اطلاعات پایه</div>
+  <div class="card-body">
+    <div class="grid3" style="margin-bottom:10px">
+      <div class="field"><label>شماره گزارش</label><input id="rnum" type="text" placeholder="۱"></div>
+      <div class="field"><label>تاریخ</label><input id="rdate" type="text"></div>
+      <div class="field"><label>روز هفته</label>
+        <select id="rday"><option>شنبه</option><option>یکشنبه</option><option>دوشنبه</option><option>سه‌شنبه</option><option>چهارشنبه</option><option>پنج‌شنبه</option></select>
+      </div>
+    </div>
+    <div class="field"><label>آدرس / واحد</label><input id="raddr" type="text" placeholder="مثال: واحد ۳، طبقه دوم، بلوک A"></div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><i class="ti ti-check"></i>چک‌لیست عملیات</div>
+  <div class="card-body"><div class="checklist" id="demo-list"></div></div>
+</div>
+<div class="card">
+  <div class="card-header"><i class="ti ti-tools"></i>فعالیت‌های انجام‌شده</div>
+  <div class="card-body">
+    <div class="act-hdr"><span>شرح فعالیت</span><span style="text-align:center">پرسنل</span><span style="text-align:center">ساعت کاری</span><span></span></div>
+    <div id="acts"></div>
+    <button class="add-btn" onclick="addAct()"><i class="ti ti-plus"></i>افزودن فعالیت</button>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><i class="ti ti-package"></i>مصالح و تجهیزات واردشده</div>
+  <div class="card-body">
+    <div class="mat-hdr"><span>عنوان</span><span style="text-align:center">تعداد</span><span style="text-align:center">قیمت واحد (ت)</span><span style="text-align:center">نحوه پرداخت</span><span></span></div>
+    <div id="mats"></div>
+    <button class="add-btn" onclick="addMat()"><i class="ti ti-plus"></i>افزودن مصالح</button>
+    <div class="total-box">
+      <div class="total-row"><span style="color:var(--text2)">جمع کل هزینه‌ها</span><span class="total-amt" id="total-display">۰ تومان</span></div>
+      <div class="pay-summary">
+        <div class="pay-card"><div class="lbl">از تنخواه</div><div class="val" id="sum-tankh">۰ تومان</div></div>
+        <div class="pay-card"><div class="lbl">از حساب شخصی</div><div class="val" id="sum-personal">۰ تومان</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><i class="ti ti-user-check"></i>ناظر حاضر در کارگاه</div>
+  <div class="card-body">
+    <div class="grid2">
+      <div class="field"><label>نام ناظر</label><input id="sup-name" type="text" placeholder="نام و نام‌خانوادگی"></div>
+      <div class="field"><label>ساعت بازدید</label><input id="sup-time" type="text" placeholder="۹:۰۰ — ۱۱:۳۰"></div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><i class="ti ti-alert-triangle"></i>مسائل و مشکلات</div>
+  <div class="card-body">
+    <div id="issues"></div>
+    <button class="add-btn" onclick="addIssue()"><i class="ti ti-plus"></i>افزودن مورد</button>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><i class="ti ti-camera"></i>مستندسازی تصویری</div>
+  <div class="card-body">
+    <div class="upload-zone" id="upload-zone">
+      <input type="file" accept="image/*" multiple onchange="handlePhotos(this.files)">
+      <i class="ti ti-photo-plus"></i>
+      <div style="font-weight:600;margin-bottom:4px">عکس‌ها را اینجا رها کنید یا کلیک کنید</div>
+      <div style="font-size:12px;color:var(--text3)">چند عکس همزمان قابل انتخابه</div>
+    </div>
+    <div class="photo-grid" id="photo-grid"></div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><i class="ti ti-list-check"></i>برنامه فردا</div>
+  <div class="card-body"><textarea id="tomorrow" placeholder="فعالیت‌های برنامه‌ریزی‌شده برای روز بعد..."></textarea></div>
+</div>
+<div class="btn-row">
+  <button class="btn primary" id="send-btn" onclick="saveAndSend()"><i class="ti ti-send"></i>ذخیره و ارسال ایمیل</button>
+  <button class="btn" onclick="saveLocal()"><i class="ti ti-device-floppy"></i>فقط ذخیره</button>
+  <button class="btn success" onclick="genPreview()"><i class="ti ti-eye"></i>پیش‌نمایش</button>
+</div>
+</div>
+
+<!-- PREVIEW -->
+<div class="main" id="tab-preview" style="display:none">
+  <div class="card">
+    <div class="card-header"><i class="ti ti-file-text"></i>پیش‌نمایش گزارش</div>
+    <div class="card-body">
+      <div class="preview-box" id="prev-content">ابتدا فرم را پر کنید.</div>
+      <div id="prev-photos" style="margin-top:12px"></div>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn primary" onclick="saveAndSend()"><i class="ti ti-send"></i>ارسال گزارش</button>
+  </div>
+</div>
+
+<!-- ARCHIVE -->
+<div class="main" id="tab-archive" style="display:none">
+  <div class="card">
+    <div class="card-header"><i class="ti ti-archive"></i>آرشیو گزارش‌ها</div>
+    <div class="card-body"><div id="arch-list"></div></div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="main" id="tab-settings" style="display:none">
+  <div class="info-box">
+    <b>برای فعال‌سازی ارسال ایمیل، باید یک‌بار EmailJS را راه‌اندازی کنی:</b><br>
+    <div class="step" style="margin-top:8px"><div class="step-num">۱</div><div>به <a href="https://www.emailjs.com" target="_blank">emailjs.com</a> برو و با Gmail ثبت‌نام کن (رایگانه)</div></div>
+    <div class="step"><div class="step-num">۲</div><div>یک <b>Email Service</b> بساز و Gmail خودت رو وصل کن → Service ID رو کپی کن</div></div>
+    <div class="step"><div class="step-num">۳</div><div>یک <b>Email Template</b> بساز. توی بدنه تمپلیت بنویس: <code>{{report_text}}</code> → Template ID رو کپی کن</div></div>
+    <div class="step"><div class="step-num">۴</div><div>از منوی Account → <b>Public Key</b> رو کپی کن</div></div>
+    <div class="step"><div class="step-num">۵</div><div>اطلاعات رو اینجا وارد کن و ذخیره کن</div></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><i class="ti ti-mail"></i>تنظیمات EmailJS</div>
+    <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+      <div class="field"><label>Public Key</label><input id="cfg-pubkey" type="text" placeholder="xxxxxxxxxxxxxxxxxxxxxxx"></div>
+      <div class="field"><label>Service ID</label><input id="cfg-service" type="text" placeholder="service_xxxxxxx"></div>
+      <div class="field"><label>Template ID</label><input id="cfg-template" type="text" placeholder="template_xxxxxxx"></div>
+      <div class="field"><label>ایمیل گیرنده (مهندس ارشد)</label><input id="cfg-email" type="email" value="azimimaw01@gmail.com"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><i class="ti ti-building"></i>اطلاعات پروژه</div>
+    <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+      <div class="field"><label>نام پروژه</label><input id="cfg-project" type="text" placeholder="مثال: بازسازی واحد ۳ بلوک A"></div>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn primary" onclick="saveSettings()"><i class="ti ti-check"></i>ذخیره تنظیمات</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg"></span></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/emailjs-com/3.2.0/email.min.js"></script>
+<script>
+const demoItems=[
+  {label:'جمع‌آوری نخاله',icon:'ti-package'},
+  {label:'تخلیه نخاله',icon:'ti-trash'},
+  {label:'قطع آب',icon:'ti-droplet-off'},
+  {label:'قطع برق',icon:'ti-plug-x'},
+];
+let acts=[],mats=[],issueList=[],photos=[];
+let archive=JSON.parse(localStorage.getItem('reports')||'[]');
+let settings=JSON.parse(localStorage.getItem('settings')||'{}');
+
+function init(){
+  const now=new Date();
+  document.getElementById('rdate').value=now.toLocaleDateString('fa-IR');
+  document.getElementById('proj-sub').textContent=(settings.project||'بازسازی آپارتمان')+' · '+now.toLocaleDateString('fa-IR');
+  const dl=document.getElementById('demo-list');
+  demoItems.forEach(s=>{
+    const d=document.createElement('div');d.className='citem';d.dataset.label=s.label;
+    d.innerHTML=`<i class="ti ${s.icon}"></i>${s.label}`;
+    d.onclick=()=>{const on=d.classList.toggle('on');d.querySelector('i').className='ti '+(on?'ti-circle-check':s.icon);};
+    dl.appendChild(d);
+  });
+  if(settings.pubkey) document.getElementById('cfg-pubkey').value=settings.pubkey;
+  if(settings.service) document.getElementById('cfg-service').value=settings.service;
+  if(settings.template) document.getElementById('cfg-template').value=settings.template;
+  if(settings.email) document.getElementById('cfg-email').value=settings.email;
+  if(settings.project) document.getElementById('cfg-project').value=settings.project;
+  addAct();addMat();renderArch();
+  const zone=document.getElementById('upload-zone');
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.style.background='var(--blue-bg)'});
+  zone.addEventListener('dragleave',()=>zone.style.background='');
+  zone.addEventListener('drop',e=>{e.preventDefault();zone.style.background='';handlePhotos(e.dataTransfer.files);});
+}
+
+function saveSettings(){
+  settings={
+    pubkey:document.getElementById('cfg-pubkey').value.trim(),
+    service:document.getElementById('cfg-service').value.trim(),
+    template:document.getElementById('cfg-template').value.trim(),
+    email:document.getElementById('cfg-email').value.trim(),
+    project:document.getElementById('cfg-project').value.trim(),
+  };
+  localStorage.setItem('settings',JSON.stringify(settings));
+  document.getElementById('proj-sub').textContent=(settings.project||'بازسازی آپارتمان')+' · '+document.getElementById('rdate').value;
+  showToast('تنظیمات ذخیره شد ✓');
+}
+
+function handlePhotos(files){
+  [...files].forEach(file=>{
+    if(!file.type.startsWith('image/'))return;
+    const reader=new FileReader();
+    reader.onload=e=>{photos.push({id:Date.now()+Math.random(),src:e.target.result,cap:''});renderPhotos();};
+    reader.readAsDataURL(file);
+  });
+}
+function renderPhotos(){
+  const g=document.getElementById('photo-grid');g.innerHTML='';
+  photos.forEach(p=>{
+    const card=document.createElement('div');card.className='photo-card';
+    card.innerHTML=`<img src="${p.src}" alt="عکس کارگاه"><div class="cap"><input type="text" value="${p.cap}" placeholder="توضیح عکس..." oninput="updPhoto('${p.id}',this.value)"></div><button class="del-photo" onclick="delPhoto('${p.id}')"><i class="ti ti-x" style="font-size:12px"></i></button>`;
+    g.appendChild(card);
+  });
+}
+function updPhoto(id,val){const p=photos.find(x=>x.id==id);if(p)p.cap=val;}
+function delPhoto(id){photos=photos.filter(x=>x.id!=id);renderPhotos();}
+
+function addAct(a='',p='',h=''){const id=Date.now()+Math.random();acts.push({id,a,p,h});renderActs();}
+function renderActs(){
+  const c=document.getElementById('acts');c.innerHTML='';
+  acts.forEach(x=>{
+    const r=document.createElement('div');r.className='act-row';
+    r.innerHTML=`<input type="text" value="${x.a}" placeholder="شرح فعالیت" oninput="upd(acts,'${x.id}','a',this.value)"><input type="text" value="${x.p}" placeholder="نفر" style="text-align:center" oninput="upd(acts,'${x.id}','p',this.value)"><input type="text" value="${x.h}" placeholder="۸–۱۲" style="text-align:center" oninput="upd(acts,'${x.id}','h',this.value)"><button class="del-btn" onclick="rmItem(acts,'${x.id}',renderActs)"><i class="ti ti-trash"></i></button>`;
+    c.appendChild(r);
+  });
+}
+function addMat(n='',q='',price='',pay='تنخواه'){const id=Date.now()+Math.random();mats.push({id,n,q,price,pay});renderMats();}
+function renderMats(){
+  const c=document.getElementById('mats');c.innerHTML='';
+  mats.forEach(x=>{
+    const r=document.createElement('div');r.className='mat-row';
+    r.innerHTML=`<input type="text" value="${x.n}" placeholder="نام مصالح" oninput="upd(mats,'${x.id}','n',this.value)"><input type="text" value="${x.q}" placeholder="تعداد" style="text-align:center" oninput="upd(mats,'${x.id}','q',this.value)"><input type="text" value="${x.price}" placeholder="قیمت" style="text-align:center" oninput="upd(mats,'${x.id}','price',this.value);calcTotal()"><select onchange="upd(mats,'${x.id}','pay',this.value);calcTotal()"><option ${x.pay==='تنخواه'?'selected':''}>تنخواه</option><option ${x.pay==='شخصی'?'selected':''}>شخصی</option></select><button class="del-btn" onclick="rmItem(mats,'${x.id}',renderMats)"><i class="ti ti-trash"></i></button>`;
+    c.appendChild(r);
+  });calcTotal();
+}
+function calcTotal(){
+  let total=0,tankh=0,personal=0;
+  mats.forEach(x=>{
+    const p=parseFloat((x.price||'0').replace(/[^0-9.]/g,''))||0;
+    const q=parseFloat((x.q||'1').replace(/[^0-9.]/g,''))||1;
+    const amt=p*q;total+=amt;
+    if(x.pay==='شخصی')personal+=amt;else tankh+=amt;
+  });
+  const fmt=n=>n.toLocaleString('fa-IR')+' تومان';
+  document.getElementById('total-display').textContent=fmt(total);
+  document.getElementById('sum-tankh').textContent=fmt(tankh);
+  document.getElementById('sum-personal').textContent=fmt(personal);
+}
+function addIssue(t=''){const id=Date.now()+Math.random();issueList.push({id,t});renderIssues();}
+function renderIssues(){
+  const c=document.getElementById('issues');c.innerHTML='';
+  issueList.forEach(x=>{
+    const r=document.createElement('div');r.className='issue-row';
+    r.innerHTML=`<textarea placeholder="شرح مشکل..." oninput="upd(issueList,'${x.id}','t',this.value)">${x.t}</textarea><button class="del-btn" onclick="rmItem(issueList,'${x.id}',renderIssues)"><i class="ti ti-trash"></i></button>`;
+    c.appendChild(r);
+  });
+}
+function upd(arr,id,field,val){const x=arr.find(i=>i.id==id);if(x)x[field]=val;}
+function rmItem(arr,id,render){const i=arr.findIndex(x=>x.id==id);if(i>-1)arr.splice(i,1);render();}
+
+function getData(){
+  return{
+    num:document.getElementById('rnum').value,
+    date:document.getElementById('rdate').value,
+    day:document.getElementById('rday').value,
+    addr:document.getElementById('raddr').value,
+    supName:document.getElementById('sup-name').value,
+    supTime:document.getElementById('sup-time').value,
+    tomorrow:document.getElementById('tomorrow').value,
+    demoOk:[...document.querySelectorAll('#demo-list .citem.on')].map(d=>d.dataset.label),
+    acts:[...acts],mats:[...mats],issueList:[...issueList],photos:[...photos]
+  };
+}
+function buildText(d){
+  let t=`گزارش روزانه بازسازی\n${'═'.repeat(36)}\nشماره: ${d.num||'—'}   تاریخ: ${d.date}   روز: ${d.day}\nواحد: ${d.addr||'—'}\nناظر: ${d.supName||'—'}   ساعت: ${d.supTime||'—'}\n\n`;
+  if(d.demoOk.length) t+=`چک‌لیست:\n${d.demoOk.map(s=>`  ✓ ${s}`).join('\n')}\n\n`;
+  if(d.acts.length){t+=`فعالیت‌ها:\n`;d.acts.forEach((a,i)=>t+=`  ${i+1}. ${a.a||'—'}  |  پرسنل: ${a.p||'—'}  |  ساعت: ${a.h||'—'}\n`);t+='\n';}
+  if(d.mats.length){
+    t+=`مصالح:\n`;let total=0,tankh=0,personal=0;
+    d.mats.forEach((m,i)=>{const p=parseFloat((m.price||'0').replace(/[^0-9.]/g,''))||0,q=parseFloat((m.q||'1').replace(/[^0-9.]/g,''))||1,amt=p*q;total+=amt;if(m.pay==='شخصی')personal+=amt;else tankh+=amt;t+=`  ${i+1}. ${m.n||'—'}  ×${m.q}  ${m.price||'—'} ت  [${m.pay}]\n`;});
+    t+=`  جمع: ${total.toLocaleString('fa-IR')} | تنخواه: ${tankh.toLocaleString('fa-IR')} | شخصی: ${personal.toLocaleString('fa-IR')}\n\n`;
+  }
+  if(d.issueList.length){t+=`مشکلات:\n`;d.issueList.forEach((x,i)=>t+=`  ${i+1}. ${x.t}\n`);t+='\n';}
+  if(d.photos.length) t+=`تصاویر پیوست: ${d.photos.length} عکس\n${d.photos.filter(p=>p.cap).map((p,i)=>`  ${i+1}. ${p.cap}`).join('\n')}\n`;
+  if(d.tomorrow) t+=`\nبرنامه فردا:\n  ${d.tomorrow}`;
+  return t;
+}
+function genPreview(){
+  const d=getData();
+  document.getElementById('prev-content').textContent=buildText(d);
+  const pg=document.getElementById('prev-photos');pg.innerHTML='';
+  if(d.photos.length){
+    const grid=document.createElement('div');grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px';
+    d.photos.forEach(p=>{const card=document.createElement('div');card.style.cssText='border-radius:6px;overflow:hidden;border:1px solid #e0deda';card.innerHTML=`<img src="${p.src}" style="width:100%;height:90px;object-fit:cover;display:block">${p.cap?`<div style="padding:4px 7px;font-size:11px;color:#6b6860">${p.cap}</div>`:''}`; grid.appendChild(card);});
+    pg.appendChild(grid);
+  }
+  sw('preview',document.querySelectorAll('.tab')[1]);
+}
+function saveLocal(){
+  const d=getData();
+  archive.unshift({...d,savedAt:new Date().toLocaleTimeString('fa-IR')});
+  localStorage.setItem('reports',JSON.stringify(archive));
+  renderArch();showToast('گزارش ذخیره شد ✓');
+}
+async function saveAndSend(){
+  const d=getData();
+  // save first
+  archive.unshift({...d,savedAt:new Date().toLocaleTimeString('fa-IR')});
+  localStorage.setItem('reports',JSON.stringify(archive));
+  renderArch();
+  if(!settings.pubkey||!settings.service||!settings.template||!settings.email){
+    showToast('⚠️ ابتدا تنظیمات ایمیل را پر کن',true);
+    sw('settings',document.querySelectorAll('.tab')[3]);return;
+  }
+  const btn=document.getElementById('send-btn');
+  btn.style.opacity='.6';btn.innerHTML='<i class="ti ti-loader"></i>در حال ارسال...';
+  try{
+    emailjs.init(settings.pubkey);
+    await emailjs.send(settings.service,settings.template,{
+      to_email:settings.email,
+      subject:`گزارش روزانه — ${d.date} — ${d.addr||'بازسازی'}`,
+      report_text:buildText(d),
+      report_date:d.date,report_num:d.num||'—',
+      supervisor:d.supName||'—',
+      issues_count:String(d.issueList.length),
+      photos_count:String(d.photos.length),
+    });
+    showToast('گزارش ذخیره و ایمیل ارسال شد ✓');
+  }catch(err){
+    showToast('خطا: '+(err.text||err),true);
+  }finally{
+    btn.style.opacity='1';btn.innerHTML='<i class="ti ti-send"></i>ذخیره و ارسال ایمیل';
+  }
+}
+function renderArch(){
+  archive=JSON.parse(localStorage.getItem('reports')||'[]');
+  const c=document.getElementById('arch-list');
+  if(!archive.length){c.innerHTML='<div style="color:var(--text2);padding:8px 0;font-size:13px">هنوز گزارشی ذخیره نشده.</div>';return;}
+  c.innerHTML='';
+  archive.forEach((r,i)=>{
+    const hasIssue=r.issueList&&r.issueList.length>0;
+    const d=document.createElement('div');d.className='arch-item';
+    d.innerHTML=`<div><div style="font-size:13px;font-weight:600">${r.date} — ${r.day}</div><div style="font-size:12px;color:var(--text2);margin-top:2px">ش${r.num||'—'} · ${(r.acts||[]).length} فعالیت · ${(r.photos||[]).length} عکس · ${r.savedAt}</div></div><div style="display:flex;gap:6px;align-items:center"><span class="badge ${hasIssue?'warn':'ok'}">${hasIssue?'مشکل':'بدون مشکل'}</span><button class="btn" style="padding:5px 10px;font-size:12px" onclick="loadArch(${i})"><i class="ti ti-eye"></i>بارگذاری</button></div>`;
+    c.appendChild(d);
+  });
+}
+function loadArch(i){
+  archive=JSON.parse(localStorage.getItem('reports')||'[]');
+  const r=archive[i];
+  acts=(r.acts||[]).map(x=>({...x}));mats=(r.mats||[]).map(x=>({...x}));
+  issueList=(r.issueList||[]).map(x=>({...x}));photos=(r.photos||[]).map(x=>({...x}));
+  ['rnum','rdate','raddr','sup-name','sup-time','tomorrow'].forEach(id=>{
+    const map={rnum:'num',rdate:'date',raddr:'addr','sup-name':'supName','sup-time':'supTime',tomorrow:'tomorrow'};
+    document.getElementById(id).value=r[map[id]]||'';
+  });
+  renderActs();renderMats();renderIssues();renderPhotos();
+  sw('form',document.querySelectorAll('.tab')[0]);showToast('گزارش بارگذاری شد');
+}
+function showToast(msg,isError=false){
+  const t=document.getElementById('toast');document.getElementById('toast-msg').textContent=msg;
+  t.className='toast show'+(isError?' error':'');setTimeout(()=>t.className='toast',3500);
+}
+function sw(name,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');
+  ['form','preview','archive','settings'].forEach(n=>document.getElementById('tab-'+n).style.display=n===name?'block':'none');
+}
+init();
+</script>
+</body>
+</html>
