@@ -4,110 +4,224 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>گزارش روزانه بازسازی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.31.0/webfont/tabler-icons.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f5f4f0;--bg2:#eeecea;--card:#fff;
-  --border:#ddd;--border2:#e8e6e2;
-  --text:#1a1a18;--text2:#6b6860;--text3:#9c9a96;
-  --blue:#2563eb;--blue-bg:#eff6ff;--blue-border:#bfdbfe;
-  --green:#16a34a;--green-bg:#f0fdf4;--green-border:#bbf7d0;
-  --amber:#d97706;--amber-bg:#fffbeb;--amber-border:#fde68a;
-  --red:#dc2626;--red-bg:#fef2f2;
-  --radius:10px;--radius-sm:6px;
-  --shadow:0 1px 3px rgba(0,0,0,.08);
+  --bg:#0f0f0f;
+  --bg2:#1a1a1a;
+  --bg3:#222;
+  --card:#161616;
+  --card2:#1e1e1e;
+  --border:#2a2a2a;
+  --border2:#333;
+  --text:#f0ede8;
+  --text2:#888;
+  --text3:#555;
+  --blue:#3b82f6;
+  --blue-bg:rgba(59,130,246,.12);
+  --blue-border:rgba(59,130,246,.3);
+  --green:#22c55e;
+  --green-bg:rgba(34,197,94,.1);
+  --green-border:rgba(34,197,94,.3);
+  --amber:#f59e0b;
+  --amber-bg:rgba(245,158,11,.1);
+  --amber-border:rgba(245,158,11,.3);
+  --red:#ef4444;
+  --red-bg:rgba(239,68,68,.1);
+  --radius:12px;
+  --radius-sm:8px;
+  --radius-xs:6px;
 }
-body{background:var(--bg);font-family:Tahoma,sans-serif;font-size:14px;color:var(--text);min-height:100vh}
-.header{background:var(--card);border-bottom:1px solid var(--border2);padding:14px 20px;position:sticky;top:0;z-index:10;box-shadow:var(--shadow)}
-.header-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
-.header-title{font-size:15px;font-weight:600}
+body{background:var(--bg);font-family:'Vazirmatn',Tahoma,sans-serif;font-size:14px;color:var(--text);min-height:100vh}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* HEADER */
+.header{background:var(--card);border-bottom:1px solid var(--border);padding:14px 20px;position:sticky;top:0;z-index:50;backdrop-filter:blur(10px)}
+.header-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.header-title{font-size:15px;font-weight:600;color:var(--text)}
 .header-sub{font-size:12px;color:var(--text2);margin-top:2px}
-.phase-badge{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);white-space:nowrap}
-.tabs{background:var(--card);border-bottom:1px solid var(--border2)}
-.tabs-inner{max-width:680px;margin:0 auto;display:flex}
-.tab{padding:10px 18px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);display:flex;align-items:center;gap:5px;transition:all .15s}
+.phase-badge{font-size:11px;padding:4px 12px;border-radius:20px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);white-space:nowrap;font-weight:500}
+
+/* TABS */
+.tabs{background:var(--card);border-bottom:1px solid var(--border);overflow-x:auto}
+.tabs::-webkit-scrollbar{display:none}
+.tabs-inner{max-width:720px;margin:0 auto;display:flex}
+.tab{padding:11px 18px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap;font-family:'Vazirmatn',sans-serif}
+.tab:hover{color:var(--text)}
 .tab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:500}
-.main{max-width:680px;margin:0 auto;padding:16px}
-.card{background:var(--card);border:1px solid var(--border2);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow)}
-.card-header{padding:12px 16px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;background:var(--bg2)}
-.card-header i{font-size:16px}
-.card-body{padding:14px 16px}
+
+/* MAIN */
+.main{max-width:720px;margin:0 auto;padding:16px}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden}
+.card-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;background:var(--bg2)}
+.card-header i{font-size:15px}
+.card-body{padding:16px}
+
+/* FORM ELEMENTS */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.field{display:flex;flex-direction:column;gap:4px}
+.field{display:flex;flex-direction:column;gap:5px}
 .field label{font-size:12px;color:var(--text2);font-weight:500}
-input,select,textarea{width:100%;font-size:13px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff;color:var(--text);font-family:inherit;transition:border .15s}
+input,select,textarea{
+  width:100%;font-size:13px;padding:9px 12px;
+  border:1px solid var(--border2);border-radius:var(--radius-xs);
+  background:var(--bg2);color:var(--text);font-family:'Vazirmatn',sans-serif;
+  transition:border .15s;-webkit-appearance:none;appearance:none;
+}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
-textarea{resize:vertical;min-height:56px}
+input::placeholder,textarea::placeholder{color:var(--text3)}
+textarea{resize:vertical;min-height:60px}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 10px center;padding-left:28px}
+
+/* CALENDAR PICKER */
+.date-picker-wrap{position:relative}
+.date-display{width:100%;font-size:13px;padding:9px 12px;border:1px solid var(--border2);border-radius:var(--radius-xs);background:var(--bg2);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:border .15s;font-family:'Vazirmatn',sans-serif}
+.date-display:hover,.date-display.open{border-color:var(--blue)}
+.date-display i{font-size:15px;color:var(--text2)}
+.calendar-dropdown{position:absolute;top:calc(100% + 6px);right:0;left:0;background:var(--card2);border:1px solid var(--border2);border-radius:var(--radius);padding:12px;z-index:100;display:none;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.calendar-dropdown.open{display:block}
+.cal-selects{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px}
+.cal-selects select{font-size:12px;padding:7px 8px;padding-left:24px}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-day-header{font-size:10px;color:var(--text2);text-align:center;padding:3px 0;font-weight:600}
+.cal-day{font-size:12px;text-align:center;padding:6px 3px;border-radius:var(--radius-xs);cursor:pointer;color:var(--text);transition:all .15s;border:1px solid transparent}
+.cal-day:hover{background:var(--bg3);border-color:var(--border2)}
+.cal-day.selected{background:var(--blue);color:#fff;font-weight:600}
+.cal-day.empty{cursor:default}
+.cal-today{color:var(--blue);font-weight:600}
+
+/* TIME PICKER */
+.time-picker-wrap{position:relative}
+.time-display{width:100%;font-size:13px;padding:9px 12px;border:1px solid var(--border2);border-radius:var(--radius-xs);background:var(--bg2);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:border .15s;font-family:'Vazirmatn',sans-serif}
+.time-display:hover,.time-display.open{border-color:var(--blue)}
+.time-display i{font-size:15px;color:var(--text2)}
+.time-dropdown{position:absolute;top:calc(100% + 6px);right:0;left:0;background:var(--card2);border:1px solid var(--border2);border-radius:var(--radius);padding:12px;z-index:100;display:none;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.time-dropdown.open{display:block}
+.time-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.time-row label{font-size:11px;color:var(--text2);display:block;margin-bottom:4px}
+.time-selects{display:flex;gap:4px;align-items:center}
+.time-selects select{font-size:12px;padding:6px 8px;padding-left:20px}
+.time-sep{color:var(--text2);font-size:13px;font-weight:600}
+.duration-row{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.duration-row label{font-size:11px;color:var(--text2);display:block;margin-bottom:4px}
+.duration-selects{display:flex;gap:4px;align-items:center}
+.duration-selects select{font-size:12px;padding:6px 8px;padding-left:20px}
+
+/* CHIP PICKER */
+.chip-wrap{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:6px 14px;border:1px solid var(--border2);border-radius:20px;font-size:12px;cursor:pointer;color:var(--text2);background:var(--bg2);transition:all .15s;font-family:'Vazirmatn',sans-serif;font-weight:500}
+.chip:hover{border-color:var(--blue);color:var(--text)}
+.chip.sel{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue)}
+.chip.sel-green{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
+
+/* CHECKLIST */
 .checklist{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.citem{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:13px;background:#fff;user-select:none;transition:all .15s}
-.citem:hover{border-color:#aaa}
+.citem{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-xs);cursor:pointer;font-size:13px;background:var(--bg2);user-select:none;transition:all .15s;color:var(--text2)}
+.citem:hover{border-color:var(--border2);color:var(--text)}
 .citem.on{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
-.citem i{font-size:17px;flex-shrink:0}
-.act-hdr,.mat-hdr{display:grid;gap:8px;font-size:11px;color:var(--text3);margin-bottom:4px;padding:0 2px;font-weight:600;text-transform:uppercase}
-.act-hdr{grid-template-columns:2fr 65px 80px 28px}
-.mat-hdr{grid-template-columns:2fr 60px 100px 100px 28px}
-.act-row{display:grid;grid-template-columns:2fr 65px 80px 28px;gap:8px;align-items:center;margin-bottom:7px}
-.mat-row{display:grid;grid-template-columns:2fr 60px 100px 100px 28px;gap:8px;align-items:center;margin-bottom:7px}
+.citem i{font-size:16px;flex-shrink:0}
+
+/* TABLE ROWS */
+.act-hdr{display:grid;grid-template-columns:2fr 100px 130px 28px;gap:8px;font-size:11px;color:var(--text3);margin-bottom:5px;padding:0 2px;font-weight:600;text-transform:uppercase}
+.act-row{display:grid;grid-template-columns:2fr 100px 130px 28px;gap:8px;align-items:center;margin-bottom:8px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-xs);padding:8px 10px}
+.mat-hdr{display:grid;grid-template-columns:2fr 80px 110px 100px 28px;gap:8px;font-size:11px;color:var(--text3);margin-bottom:5px;padding:0 2px;font-weight:600;text-transform:uppercase}
+.mat-row{display:grid;grid-template-columns:2fr 80px 110px 100px 28px;gap:8px;align-items:center;margin-bottom:8px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-xs);padding:8px 10px}
+.act-row input,.mat-row input,.act-row select,.mat-row select{border:none;background:transparent;padding:4px 6px;font-size:13px}
+.act-row input:focus,.mat-row input:focus{outline:none;background:var(--bg3);border-radius:4px}
 .issue-row{display:grid;grid-template-columns:1fr 28px;gap:8px;align-items:start;margin-bottom:8px}
-.add-btn{background:none;border:1px dashed var(--border);color:var(--text2);border-radius:var(--radius-sm);padding:7px 12px;cursor:pointer;font-size:12px;width:100%;margin-top:4px;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:4px;transition:background .15s}
-.add-btn:hover{background:var(--bg)}
-.del-btn{background:none;border:none;cursor:pointer;color:#ccc;padding:0;font-size:17px;display:flex;align-items:center;transition:color .15s}
+
+/* BUTTONS */
+.add-btn{background:none;border:1px dashed var(--border2);color:var(--text2);border-radius:var(--radius-xs);padding:8px 12px;cursor:pointer;font-size:12px;width:100%;margin-top:6px;font-family:'Vazirmatn',sans-serif;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s}
+.add-btn:hover{background:var(--bg2);border-color:var(--border2);color:var(--text)}
+.del-btn{background:none;border:none;cursor:pointer;color:var(--text3);padding:0;font-size:16px;display:flex;align-items:center;transition:color .15s}
 .del-btn:hover{color:var(--red)}
-.total-box{background:var(--bg2);border-radius:var(--radius-sm);padding:10px 14px;margin-top:10px}
-.total-row{display:flex;justify-content:space-between;align-items:center;font-size:13px}
-.total-amt{font-size:16px;font-weight:700;color:var(--blue)}
-.pay-summary{display:flex;gap:8px;margin-top:8px}
-.pay-card{flex:1;background:#fff;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:8px 12px;font-size:12px}
-.pay-card .lbl{color:var(--text2);margin-bottom:3px}
-.pay-card .val{font-weight:600;font-size:13px}
-.upload-zone{border:1.5px dashed var(--border);border-radius:var(--radius);padding:22px;text-align:center;cursor:pointer;color:var(--text2);font-size:13px;position:relative;transition:all .15s}
-.upload-zone:hover{background:var(--bg);border-color:#aaa}
-.upload-zone i{font-size:30px;display:block;margin-bottom:8px;color:var(--text3)}
-.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:10px}
-.photo-card{border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border2);background:var(--bg2);position:relative}
-.photo-card img{width:100%;height:95px;object-fit:cover;display:block}
-.photo-card .cap input{font-size:11px;padding:5px 7px;border:none;border-top:1px solid var(--border2);border-radius:0;background:#fff}
-.photo-card .del-photo{position:absolute;top:4px;left:4px;background:rgba(0,0,0,.5);color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px}
 .btn-row{display:flex;gap:8px;flex-wrap:wrap;padding:4px 0 8px}
-.btn{padding:9px 18px;border-radius:var(--radius-sm);font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;display:flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;color:var(--text);transition:all .15s}
-.btn:hover{background:var(--bg)}
+.btn{padding:10px 20px;border-radius:var(--radius-xs);font-size:13px;cursor:pointer;font-family:'Vazirmatn',sans-serif;font-weight:600;display:flex;align-items:center;gap:6px;border:1px solid var(--border2);background:var(--bg2);color:var(--text);transition:all .15s}
+.btn:hover{background:var(--bg3);border-color:var(--border2)}
 .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
-.btn.primary:hover{background:#1d4ed8}
-.btn.success{background:var(--green);border-color:var(--green);color:#fff}
-.btn.success:hover{background:#15803d}
-.toast{position:fixed;bottom:24px;right:50%;transform:translateX(50%);background:#1a1a18;color:#fff;font-size:13px;padding:10px 20px;border-radius:20px;display:none;align-items:center;gap:8px;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.2);white-space:nowrap}
+.btn.primary:hover{background:#2563eb}
+.btn.success{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
+
+/* TOTAL */
+.total-box{background:var(--bg2);border-radius:var(--radius-xs);padding:12px 14px;margin-top:10px;border:1px solid var(--border)}
+.total-row{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.total-amt{font-size:18px;font-weight:700;color:var(--blue)}
+.pay-summary{display:flex;gap:8px;margin-top:10px}
+.pay-card{flex:1;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-xs);padding:10px 12px;font-size:12px}
+.pay-card .lbl{color:var(--text2);margin-bottom:4px;font-size:11px}
+.pay-card .val{font-weight:600;font-size:13px;color:var(--text)}
+
+/* PHOTO */
+.upload-zone{border:1.5px dashed var(--border2);border-radius:var(--radius);padding:24px;text-align:center;cursor:pointer;color:var(--text2);font-size:13px;position:relative;transition:all .15s}
+.upload-zone:hover{background:var(--bg2);border-color:var(--blue)}
+.upload-zone i{font-size:32px;display:block;margin-bottom:8px;color:var(--text3)}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:12px}
+.photo-card{border-radius:var(--radius-xs);overflow:hidden;border:1px solid var(--border);background:var(--bg2);position:relative}
+.photo-card img{width:100%;height:100px;object-fit:cover;display:block}
+.photo-card .cap{padding:6px 8px}
+.photo-card .cap input{font-size:11px;padding:5px 7px;border-color:var(--border);background:var(--bg3)}
+.photo-card .del-photo{position:absolute;top:5px;left:5px;background:rgba(0,0,0,.7);color:#fff;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:background .15s}
+.photo-card .del-photo:hover{background:var(--red)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:50%;transform:translateX(50%);background:#1a1a1a;color:var(--text);font-size:13px;padding:11px 22px;border-radius:24px;display:none;align-items:center;gap:8px;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,.6);border:1px solid var(--border2);white-space:nowrap}
 .toast.show{display:flex}
-.toast.error{background:var(--red)}
-.preview-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:16px;font-size:13px;line-height:2;white-space:pre-wrap;direction:rtl;text-align:right;max-height:420px;overflow-y:auto}
-.arch-item{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border2)}
+.toast.error{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+.toast.ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
+
+/* PREVIEW */
+.preview-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-xs);padding:18px;font-size:13px;line-height:2;white-space:pre-wrap;direction:rtl;text-align:right;max-height:480px;overflow-y:auto;color:var(--text)}
+
+/* ARCHIVE */
+.arch-item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)}
 .arch-item:last-child{border:none}
-.badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
 .badge.ok{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
 .badge.warn{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
-.info-box{background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;margin-bottom:12px;line-height:1.7}
+
+/* INFO BOX */
+.info-box{background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:var(--radius-xs);padding:14px;font-size:13px;margin-bottom:12px;line-height:1.8;color:var(--text)}
 .info-box a{color:var(--blue);font-weight:600}
-.step{display:flex;gap:10px;margin-bottom:10px;font-size:13px;line-height:1.6}
-.step-num{background:var(--blue);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
-@media(max-width:500px){
+.step{display:flex;gap:10px;margin-bottom:8px;font-size:13px;line-height:1.6}
+.step-num{background:var(--blue);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* SUPERVISOR TIME */
+.sup-time-wrap{display:flex;gap:8px;align-items:center}
+.sup-time-wrap select{flex:1}
+.sup-time-sep{color:var(--text2);font-weight:600}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:12px 0}
+
+@media(max-width:540px){
   .grid3{grid-template-columns:1fr 1fr}
-  .mat-hdr,.mat-row{grid-template-columns:1fr 50px 28px}
   .checklist{grid-template-columns:1fr}
+  .mat-hdr,.mat-row{grid-template-columns:1fr 70px 28px}
+  .act-hdr,.act-row{grid-template-columns:1fr 28px}
+  .pay-summary{flex-direction:column}
 }
 </style>
 </head>
 <body>
+
 <div class="header">
   <div class="header-inner">
     <div>
       <div class="header-title">گزارش روزانه بازسازی</div>
-      <div class="header-sub" id="proj-sub"></div>
+      <div class="header-sub" id="proj-sub">در حال بارگذاری...</div>
     </div>
     <span class="phase-badge"><i class="ti ti-hammer"></i> تخریب و آماده‌سازی</span>
   </div>
 </div>
+
 <div class="tabs">
   <div class="tabs-inner">
     <div class="tab active" onclick="sw('form',this)"><i class="ti ti-edit"></i>فرم</div>
@@ -117,37 +231,68 @@ textarea{resize:vertical;min-height:56px}
   </div>
 </div>
 
-<!-- FORM -->
+<!-- ===== FORM ===== -->
 <div class="main" id="tab-form">
+
 <div class="card">
   <div class="card-header"><i class="ti ti-info-circle"></i>اطلاعات پایه</div>
   <div class="card-body">
-    <div class="grid3" style="margin-bottom:10px">
+    <div class="grid3" style="margin-bottom:12px">
       <div class="field"><label>شماره گزارش</label><input id="rnum" type="text" placeholder="۱"></div>
-      <div class="field"><label>تاریخ</label><input id="rdate" type="text"></div>
-      <div class="field"><label>روز هفته</label>
-        <select id="rday"><option>شنبه</option><option>یکشنبه</option><option>دوشنبه</option><option>سه‌شنبه</option><option>چهارشنبه</option><option>پنج‌شنبه</option></select>
+      <div class="field">
+        <label>تاریخ</label>
+        <div class="date-picker-wrap">
+          <div class="date-display" id="date-display" onclick="toggleCal()">
+            <span id="date-text">انتخاب تاریخ</span>
+            <i class="ti ti-calendar"></i>
+          </div>
+          <div class="calendar-dropdown" id="cal-dropdown">
+            <div class="cal-selects">
+              <select id="cal-year" onchange="renderCal()"></select>
+              <select id="cal-month" onchange="renderCal()">
+                <option value="1">فروردین</option><option value="2">اردیبهشت</option>
+                <option value="3">خرداد</option><option value="4">تیر</option>
+                <option value="5">مرداد</option><option value="6">شهریور</option>
+                <option value="7">مهر</option><option value="8">آبان</option>
+                <option value="9">آذر</option><option value="10">دی</option>
+                <option value="11">بهمن</option><option value="12">اسفند</option>
+              </select>
+              <div style="font-size:11px;color:var(--text2);display:flex;align-items:center;justify-content:center" id="cal-year-display"></div>
+            </div>
+            <div class="cal-days" id="cal-days"></div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>روز هفته</label>
+        <select id="rday">
+          <option>شنبه</option><option>یکشنبه</option><option>دوشنبه</option>
+          <option>سه‌شنبه</option><option>چهارشنبه</option><option>پنج‌شنبه</option><option>جمعه</option>
+        </select>
       </div>
     </div>
     <div class="field"><label>آدرس / واحد</label><input id="raddr" type="text" placeholder="مثال: واحد ۳، طبقه دوم، بلوک A"></div>
   </div>
 </div>
+
 <div class="card">
-  <div class="card-header"><i class="ti ti-check"></i>چک‌لیست عملیات</div>
+  <div class="card-header"><i class="ti ti-check"></i>چک‌لیست تیم نظارت</div>
   <div class="card-body"><div class="checklist" id="demo-list"></div></div>
 </div>
+
 <div class="card">
   <div class="card-header"><i class="ti ti-tools"></i>فعالیت‌های انجام‌شده</div>
   <div class="card-body">
-    <div class="act-hdr"><span>شرح فعالیت</span><span style="text-align:center">پرسنل</span><span style="text-align:center">ساعت کاری</span><span></span></div>
+    <div class="act-hdr"><span>شرح فعالیت</span><span>پرسنل</span><span>ساعت کاری</span><span></span></div>
     <div id="acts"></div>
     <button class="add-btn" onclick="addAct()"><i class="ti ti-plus"></i>افزودن فعالیت</button>
   </div>
 </div>
+
 <div class="card">
   <div class="card-header"><i class="ti ti-package"></i>مصالح و تجهیزات واردشده</div>
   <div class="card-body">
-    <div class="mat-hdr"><span>عنوان</span><span style="text-align:center">تعداد</span><span style="text-align:center">قیمت واحد (ت)</span><span style="text-align:center">نحوه پرداخت</span><span></span></div>
+    <div class="mat-hdr"><span>عنوان</span><span>تعداد</span><span>قیمت واحد (ت)</span><span>پرداخت</span><span></span></div>
     <div id="mats"></div>
     <button class="add-btn" onclick="addMat()"><i class="ti ti-plus"></i>افزودن مصالح</button>
     <div class="total-box">
@@ -155,19 +300,33 @@ textarea{resize:vertical;min-height:56px}
       <div class="pay-summary">
         <div class="pay-card"><div class="lbl">از تنخواه</div><div class="val" id="sum-tankh">۰ تومان</div></div>
         <div class="pay-card"><div class="lbl">از حساب شخصی</div><div class="val" id="sum-personal">۰ تومان</div></div>
+        <div class="pay-card"><div class="lbl">توسط مهندس</div><div class="val" id="sum-eng">۰ تومان</div></div>
       </div>
     </div>
   </div>
 </div>
+
 <div class="card">
   <div class="card-header"><i class="ti ti-user-check"></i>ناظر حاضر در کارگاه</div>
   <div class="card-body">
     <div class="grid2">
       <div class="field"><label>نام ناظر</label><input id="sup-name" type="text" placeholder="نام و نام‌خانوادگی"></div>
-      <div class="field"><label>ساعت بازدید</label><input id="sup-time" type="text" placeholder="۹:۰۰ — ۱۱:۳۰"></div>
+      <div class="field">
+        <label>ساعت بازدید</label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <select id="sup-from" style="flex:1">
+            <option value="">از ساعت</option>
+          </select>
+          <span style="color:var(--text2);font-weight:600">تا</span>
+          <select id="sup-to" style="flex:1">
+            <option value="">تا ساعت</option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
 <div class="card">
   <div class="card-header"><i class="ti ti-alert-triangle"></i>مسائل و مشکلات</div>
   <div class="card-body">
@@ -175,6 +334,7 @@ textarea{resize:vertical;min-height:56px}
     <button class="add-btn" onclick="addIssue()"><i class="ti ti-plus"></i>افزودن مورد</button>
   </div>
 </div>
+
 <div class="card">
   <div class="card-header"><i class="ti ti-camera"></i>مستندسازی تصویری</div>
   <div class="card-body">
@@ -187,10 +347,12 @@ textarea{resize:vertical;min-height:56px}
     <div class="photo-grid" id="photo-grid"></div>
   </div>
 </div>
+
 <div class="card">
   <div class="card-header"><i class="ti ti-list-check"></i>برنامه فردا</div>
   <div class="card-body"><textarea id="tomorrow" placeholder="فعالیت‌های برنامه‌ریزی‌شده برای روز بعد..."></textarea></div>
 </div>
+
 <div class="btn-row">
   <button class="btn primary" id="send-btn" onclick="saveAndSend()"><i class="ti ti-send"></i>ذخیره و ارسال ایمیل</button>
   <button class="btn" onclick="saveLocal()"><i class="ti ti-device-floppy"></i>فقط ذخیره</button>
@@ -198,7 +360,7 @@ textarea{resize:vertical;min-height:56px}
 </div>
 </div>
 
-<!-- PREVIEW -->
+<!-- ===== PREVIEW ===== -->
 <div class="main" id="tab-preview" style="display:none">
   <div class="card">
     <div class="card-header"><i class="ti ti-file-text"></i>پیش‌نمایش گزارش</div>
@@ -212,7 +374,7 @@ textarea{resize:vertical;min-height:56px}
   </div>
 </div>
 
-<!-- ARCHIVE -->
+<!-- ===== ARCHIVE ===== -->
 <div class="main" id="tab-archive" style="display:none">
   <div class="card">
     <div class="card-header"><i class="ti ti-archive"></i>آرشیو گزارش‌ها</div>
@@ -220,15 +382,15 @@ textarea{resize:vertical;min-height:56px}
   </div>
 </div>
 
-<!-- SETTINGS -->
+<!-- ===== SETTINGS ===== -->
 <div class="main" id="tab-settings" style="display:none">
   <div class="info-box">
-    <b>برای فعال‌سازی ارسال ایمیل، باید یک‌بار EmailJS را راه‌اندازی کنی:</b><br>
-    <div class="step" style="margin-top:8px"><div class="step-num">۱</div><div>به <a href="https://www.emailjs.com" target="_blank">emailjs.com</a> برو و با Gmail ثبت‌نام کن (رایگانه)</div></div>
-    <div class="step"><div class="step-num">۲</div><div>یک <b>Email Service</b> بساز و Gmail خودت رو وصل کن → Service ID رو کپی کن</div></div>
-    <div class="step"><div class="step-num">۳</div><div>یک <b>Email Template</b> بساز. توی بدنه تمپلیت بنویس: <code>{{report_text}}</code> → Template ID رو کپی کن</div></div>
-    <div class="step"><div class="step-num">۴</div><div>از منوی Account → <b>Public Key</b> رو کپی کن</div></div>
-    <div class="step"><div class="step-num">۵</div><div>اطلاعات رو اینجا وارد کن و ذخیره کن</div></div>
+    <b>راه‌اندازی ارسال ایمیل با EmailJS:</b>
+    <div class="step" style="margin-top:10px"><div class="step-num">۱</div><div>به <a href="https://emailjs.com" target="_blank">emailjs.com</a> برو و با Gmail ثبت‌نام کن</div></div>
+    <div class="step"><div class="step-num">۲</div><div>Email Services → Add New Service → Gmail → Connect → Create Service → <b>Service ID</b> را کپی کن</div></div>
+    <div class="step"><div class="step-num">۳</div><div>Email Templates → Create New Template → توی بدنه بنویس <code style="background:var(--bg3);padding:2px 6px;border-radius:4px">{{report_text}}</code> → Save → <b>Template ID</b> را کپی کن</div></div>
+    <div class="step"><div class="step-num">۴</div><div>Account → <b>Public Key</b> را کپی کن</div></div>
+    <div class="step"><div class="step-num">۵</div><div>همه را اینجا وارد کن و ذخیره کن</div></div>
   </div>
   <div class="card">
     <div class="card-header"><i class="ti ti-mail"></i>تنظیمات EmailJS</div>
@@ -236,12 +398,12 @@ textarea{resize:vertical;min-height:56px}
       <div class="field"><label>Public Key</label><input id="cfg-pubkey" type="text" placeholder="xxxxxxxxxxxxxxxxxxxxxxx"></div>
       <div class="field"><label>Service ID</label><input id="cfg-service" type="text" placeholder="service_xxxxxxx"></div>
       <div class="field"><label>Template ID</label><input id="cfg-template" type="text" placeholder="template_xxxxxxx"></div>
-      <div class="field"><label>ایمیل گیرنده (مهندس ارشد)</label><input id="cfg-email" type="email" value="azimimaw01@gmail.com"></div>
+      <div class="field"><label>ایمیل گیرنده</label><input id="cfg-email" type="email" value="azimimaw01@gmail.com"></div>
     </div>
   </div>
   <div class="card">
     <div class="card-header"><i class="ti ti-building"></i>اطلاعات پروژه</div>
-    <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+    <div class="card-body">
       <div class="field"><label>نام پروژه</label><input id="cfg-project" type="text" placeholder="مثال: بازسازی واحد ۳ بلوک A"></div>
     </div>
   </div>
@@ -252,22 +414,166 @@ textarea{resize:vertical;min-height:56px}
 
 <div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg"></span></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/emailjs-com/3.2.0/email.min.js"></script>
 <script>
+// ── DATA ──────────────────────────────────────────
 const demoItems=[
   {label:'جمع‌آوری نخاله',icon:'ti-package'},
   {label:'تخلیه نخاله',icon:'ti-trash'},
   {label:'قطع آب',icon:'ti-droplet-off'},
   {label:'قطع برق',icon:'ti-plug-x'},
+  {label:'باز گذاشتن پنجره',icon:'ti-window'},
+  {label:'بستن پنجره',icon:'ti-window-off'},
+  {label:'بستن توری',icon:'ti-grid-dots'},
+  {label:'نظافت آسانسور',icon:'ti-building-skyscraper'},
+  {label:'نظافت راهرو',icon:'ti-door'},
+  {label:'نظافت پارکینگ',icon:'ti-car'},
 ];
+const personnelOptions=['۱ نفر','۲ نفر','۳ نفر','۴ نفر','۵ نفر','۶ نفر','۷ نفر','۸ نفر','۹ نفر','۱۰ نفر','بیشتر'];
+const payOptions=['تنخواه','شخصی','مهندس'];
+
 let acts=[],mats=[],issueList=[],photos=[];
+let selDate={y:1404,m:3,d:null};
 let archive=JSON.parse(localStorage.getItem('reports')||'[]');
 let settings=JSON.parse(localStorage.getItem('settings')||'{}');
 
+// ── INIT ──────────────────────────────────────────
 function init(){
+  document.getElementById('proj-sub').textContent=(settings.project||'بازسازی آپارتمان');
+  buildCalYear();
+  setTodayDate();
+  buildTimePickers();
+  buildChecklist();
+  loadSettingsUI();
+  addAct();addMat();
+  renderArch();
+  setupDragDrop();
+  document.addEventListener('click',outsideClick);
+}
+
+function outsideClick(e){
+  if(!e.target.closest('.date-picker-wrap')) closeCal();
+}
+
+// ── CALENDAR ──────────────────────────────────────
+function buildCalYear(){
+  const sel=document.getElementById('cal-year');
+  for(let y=1390;y<=1410;y++){
+    const o=document.createElement('option');
+    o.value=y;o.textContent=toFa(y);
+    if(y===selDate.y)o.selected=true;
+    sel.appendChild(o);
+  }
+}
+function setTodayDate(){
+  // approximate today in Jalali
   const now=new Date();
-  document.getElementById('rdate').value=now.toLocaleDateString('fa-IR');
-  document.getElementById('proj-sub').textContent=(settings.project||'بازسازی آپارتمان')+' · '+now.toLocaleDateString('fa-IR');
+  const jd=gregorianToJalali(now.getFullYear(),now.getMonth()+1,now.getDate());
+  selDate={y:jd[0],m:jd[1],d:jd[2]};
+  document.getElementById('cal-year').value=selDate.y;
+  document.getElementById('cal-month').value=selDate.m;
+  updateDateDisplay();
+  renderCal();
+}
+function gregorianToJalali(gy,gm,gd){
+  const g_d_no=[0,31,((gy%4==0&&gy%100!=0)||(gy%400==0))?29:28,31,30,31,30,31,31,30,31,30,31];
+  let jy=gy<=1600?0:979;
+  gy-=gy<=1600?621:1600;
+  const gy2=gm>2?gy+1:gy;
+  let days=(365*gy)+(Math.floor((gy2+3)/4))-(Math.floor((gy2+99)/100))+(Math.floor((gy2+399)/400))-80+gd;
+  for(let i=0;i<gm-1;i++)days+=g_d_no[i+1];
+  jy+=33*Math.floor(days/12053);days%=12053;
+  jy+=4*Math.floor(days/1461);days%=1461;
+  if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365;}
+  const jm=days<186?1+Math.floor(days/31):7+Math.floor((days-186)/30);
+  const jd2=1+(days<186?days%31:(days-186)%30);
+  return[jy,jm,jd2];
+}
+function jalaliDaysInMonth(y,m){return m<=6?31:m<=11?30:isJalaliLeap(y)?30:29;}
+function isJalaliLeap(y){const a=[1,5,9,13,17,22,26,30];return a.includes(((y-474)%2820+474+38)*682%2816);}
+function jalaliDayOfWeek(y,m,d){
+  // convert to gregorian first day of month then find weekday
+  const g=jalaliToGregorian(y,m,d);
+  return (new Date(g[0],g[1]-1,g[2]).getDay()+1)%7; // 0=sat
+}
+function jalaliToGregorian(jy,jm,jd){
+  jy+=1595;
+  let days=-355779+365*jy+Math.floor((jy/33))*8+Math.floor(((jy%33)+3)/4);
+  if(jm<=6)days+=31*(jm-1);else days+=30*(jm-7)+186;
+  days+=jd;
+  let gy=400*Math.floor(days/146097);days%=146097;
+  if(days>36524){gy+=100*Math.floor(--days/36524);days%=36524;if(days>=365)days++;}
+  gy+=4*Math.floor(days/1461);days%=1461;
+  if(days>365){gy+=Math.floor((days-1)/365);days=(days-1)%365;}
+  const gm=Math.floor((days+14)/153)%12+1;
+  const gd=days-Math.floor((153*Math.floor((days+14)/153)-457)/5)+1;
+  return[gy,gm,gd];
+}
+function toggleCal(){
+  const dd=document.getElementById('cal-dropdown');
+  const disp=document.getElementById('date-display');
+  const isOpen=dd.classList.toggle('open');
+  disp.classList.toggle('open',isOpen);
+  if(isOpen)renderCal();
+}
+function closeCal(){
+  document.getElementById('cal-dropdown').classList.remove('open');
+  document.getElementById('date-display').classList.remove('open');
+}
+function renderCal(){
+  const y=parseInt(document.getElementById('cal-year').value);
+  const m=parseInt(document.getElementById('cal-month').value);
+  selDate.y=y;selDate.m=m;
+  document.getElementById('cal-year-display').textContent=toFa(y);
+  const days=document.getElementById('cal-days');
+  days.innerHTML='';
+  const headers=['ش','ی','د','س','چ','پ','ج'];
+  headers.forEach(h=>{const d=document.createElement('div');d.className='cal-day-header';d.textContent=h;days.appendChild(d);});
+  const firstDay=jalaliDayOfWeek(y,m,1);
+  for(let i=0;i<firstDay;i++){const e=document.createElement('div');e.className='cal-day empty';days.appendChild(e);}
+  const total=jalaliDaysInMonth(y,m);
+  for(let d=1;d<=total;d++){
+    const el=document.createElement('div');
+    el.className='cal-day';
+    if(selDate.d===d)el.classList.add('selected');
+    el.textContent=toFa(d);
+    el.onclick=(()=>{const dd=d;return()=>selectDay(dd)})();
+    days.appendChild(el);
+  }
+}
+function selectDay(d){
+  selDate.d=d;
+  updateDateDisplay();
+  closeCal();
+  renderCal();
+}
+function updateDateDisplay(){
+  const months=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+  const txt=selDate.d?`${toFa(selDate.d)} ${months[selDate.m-1]} ${toFa(selDate.y)}`:'انتخاب تاریخ';
+  document.getElementById('date-text').textContent=txt;
+}
+function getDateStr(){
+  if(!selDate.d)return '—';
+  const months=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+  return `${toFa(selDate.d)} ${months[selDate.m-1]} ${toFa(selDate.y)}`;
+}
+
+// ── TIME PICKERS ──────────────────────────────────
+function buildTimePickers(){
+  ['sup-from','sup-to'].forEach(id=>{
+    const sel=document.getElementById(id);
+    for(let h=6;h<=22;h++){
+      ['00','30'].forEach(min=>{
+        const o=document.createElement('option');
+        o.value=`${h}:${min}`;
+        o.textContent=toFa(h)+':'+min;
+        sel.appendChild(o);
+      });
+    }
+  });
+}
+
+// ── CHECKLIST ─────────────────────────────────────
+function buildChecklist(){
   const dl=document.getElementById('demo-list');
   demoItems.forEach(s=>{
     const d=document.createElement('div');d.className='citem';d.dataset.label=s.label;
@@ -275,31 +581,121 @@ function init(){
     d.onclick=()=>{const on=d.classList.toggle('on');d.querySelector('i').className='ti '+(on?'ti-circle-check':s.icon);};
     dl.appendChild(d);
   });
-  if(settings.pubkey) document.getElementById('cfg-pubkey').value=settings.pubkey;
-  if(settings.service) document.getElementById('cfg-service').value=settings.service;
-  if(settings.template) document.getElementById('cfg-template').value=settings.template;
-  if(settings.email) document.getElementById('cfg-email').value=settings.email;
-  if(settings.project) document.getElementById('cfg-project').value=settings.project;
-  addAct();addMat();renderArch();
+}
+
+// ── ACTIVITIES ────────────────────────────────────
+function addAct(a='',p='',dur='',from='',to=''){
+  const id=Date.now()+Math.random();acts.push({id,a,p,dur,from,to});renderActs();
+}
+function renderActs(){
+  const c=document.getElementById('acts');c.innerHTML='';
+  acts.forEach(x=>{
+    const row=document.createElement('div');row.className='act-row';
+    const persOpts=personnelOptions.map(o=>`<option ${x.p===o?'selected':''}>${o}</option>`).join('');
+    const dur=calcDur(x.from,x.to);
+    row.innerHTML=`
+      <input type="text" value="${x.a}" placeholder="شرح فعالیت" oninput="upd(acts,'${x.id}','a',this.value)">
+      <select onchange="upd(acts,'${x.id}','p',this.value)"><option value="">پرسنل</option>${persOpts}</select>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="display:flex;gap:4px;align-items:center">
+          <select style="flex:1;font-size:11px;padding:4px 6px" onchange="upd(acts,'${x.id}','from',this.value);recalcDur('${x.id}')">
+            <option value="">شروع</option>${buildHourOpts(x.from)}
+          </select>
+          <span style="color:var(--text3);font-size:11px">—</span>
+          <select style="flex:1;font-size:11px;padding:4px 6px" onchange="upd(acts,'${x.id}','to',this.value);recalcDur('${x.id}')">
+            <option value="">پایان</option>${buildHourOpts(x.to)}
+          </select>
+        </div>
+        <div id="dur-${x.id}" style="font-size:11px;color:${dur?'var(--green)':'var(--text3)'};padding:3px 6px;background:var(--bg3);border-radius:4px;text-align:center;min-height:22px">
+          ${dur||'مدت زمان محاسبه می‌شود'}
+        </div>
+      </div>
+      <button class="del-btn" onclick="rmItem(acts,'${x.id}',renderActs)"><i class="ti ti-trash"></i></button>`;
+    c.appendChild(row);
+  });
+}
+function calcDur(from,to){
+  if(!from||!to)return '';
+  const [fh,fm]=from.split(':').map(Number);
+  const [th,tm]=to.split(':').map(Number);
+  let mins=(th*60+tm)-(fh*60+fm);
+  if(mins<=0)return '';
+  const h=Math.floor(mins/60);
+  const m=mins%60;
+  if(h===0)return `${toFa(m)} دقیقه`;
+  if(m===0)return `${toFa(h)} ساعت`;
+  return `${toFa(h)} ساعت و ${toFa(m)} دقیقه`;
+}
+function recalcDur(id){
+  const x=acts.find(a=>a.id==id);
+  if(!x)return;
+  const dur=calcDur(x.from,x.to);
+  x.dur=dur;
+  const el=document.getElementById('dur-'+id);
+  if(el){
+    el.textContent=dur||'مدت زمان محاسبه می‌شود';
+    el.style.color=dur?'var(--green)':'var(--text3)';
+  }
+}
+function buildHourOpts(sel){
+  let o='';
+  for(let h=6;h<=22;h++){['00','30'].forEach(m=>{const v=`${h}:${m}`;o+=`<option ${sel===v?'selected':''} value="${v}">${toFa(h)}:${m}</option>`;});}
+  return o;
+}
+
+// ── MATERIALS ─────────────────────────────────────
+function addMat(n='',q='',price='',pay='تنخواه'){
+  const id=Date.now()+Math.random();mats.push({id,n,q,price,pay});renderMats();
+}
+function renderMats(){
+  const c=document.getElementById('mats');c.innerHTML='';
+  mats.forEach(x=>{
+    const row=document.createElement('div');row.className='mat-row';
+    const payOpts=payOptions.map(o=>`<option ${x.pay===o?'selected':''}>${o}</option>`).join('');
+    row.innerHTML=`
+      <input type="text" value="${x.n}" placeholder="نام مصالح" oninput="upd(mats,'${x.id}','n',this.value)">
+      <input type="text" value="${x.q}" placeholder="تعداد" style="text-align:center" oninput="upd(mats,'${x.id}','q',this.value)">
+      <input type="text" value="${x.price}" placeholder="قیمت" style="text-align:center" oninput="upd(mats,'${x.id}','price',this.value);calcTotal()">
+      <select onchange="upd(mats,'${x.id}','pay',this.value);calcTotal()">${payOpts}</select>
+      <button class="del-btn" onclick="rmItem(mats,'${x.id}',renderMats)"><i class="ti ti-trash"></i></button>`;
+    c.appendChild(row);
+  });calcTotal();
+}
+function calcTotal(){
+  let total=0,tankh=0,personal=0,eng=0;
+  mats.forEach(x=>{
+    const p=parseFloat((x.price||'0').replace(/[^0-9.]/g,''))||0;
+    const q=parseFloat((x.q||'1').replace(/[^0-9.]/g,''))||1;
+    const amt=p*q;total+=amt;
+    if(x.pay==='شخصی')personal+=amt;
+    else if(x.pay==='مهندس')eng+=amt;
+    else tankh+=amt;
+  });
+  const fmt=n=>n.toLocaleString('fa-IR')+' تومان';
+  document.getElementById('total-display').textContent=fmt(total);
+  document.getElementById('sum-tankh').textContent=fmt(tankh);
+  document.getElementById('sum-personal').textContent=fmt(personal);
+  document.getElementById('sum-eng').textContent=fmt(eng);
+}
+
+// ── ISSUES ────────────────────────────────────────
+function addIssue(t=''){const id=Date.now()+Math.random();issueList.push({id,t});renderIssues();}
+function renderIssues(){
+  const c=document.getElementById('issues');c.innerHTML='';
+  issueList.forEach(x=>{
+    const r=document.createElement('div');r.className='issue-row';
+    r.innerHTML=`<textarea placeholder="شرح مشکل یا مغایرت..." oninput="upd(issueList,'${x.id}','t',this.value)">${x.t}</textarea><button class="del-btn" onclick="rmItem(issueList,'${x.id}',renderIssues)"><i class="ti ti-trash"></i></button>`;
+    c.appendChild(r);
+  });
+}
+
+// ── PHOTOS ────────────────────────────────────────
+function setupDragDrop(){
   const zone=document.getElementById('upload-zone');
-  zone.addEventListener('dragover',e=>{e.preventDefault();zone.style.background='var(--blue-bg)'});
-  zone.addEventListener('dragleave',()=>zone.style.background='');
-  zone.addEventListener('drop',e=>{e.preventDefault();zone.style.background='';handlePhotos(e.dataTransfer.files);});
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.style.borderColor='var(--blue)'});
+  zone.addEventListener('dragleave',()=>zone.style.borderColor='');
+  zone.addEventListener('drop',e=>{e.preventDefault();zone.style.borderColor='';handlePhotos(e.dataTransfer.files);});
 }
-
-function saveSettings(){
-  settings={
-    pubkey:document.getElementById('cfg-pubkey').value.trim(),
-    service:document.getElementById('cfg-service').value.trim(),
-    template:document.getElementById('cfg-template').value.trim(),
-    email:document.getElementById('cfg-email').value.trim(),
-    project:document.getElementById('cfg-project').value.trim(),
-  };
-  localStorage.setItem('settings',JSON.stringify(settings));
-  document.getElementById('proj-sub').textContent=(settings.project||'بازسازی آپارتمان')+' · '+document.getElementById('rdate').value;
-  showToast('تنظیمات ذخیره شد ✓');
-}
-
 function handlePhotos(files){
   [...files].forEach(file=>{
     if(!file.type.startsWith('image/'))return;
@@ -312,130 +708,123 @@ function renderPhotos(){
   const g=document.getElementById('photo-grid');g.innerHTML='';
   photos.forEach(p=>{
     const card=document.createElement('div');card.className='photo-card';
-    card.innerHTML=`<img src="${p.src}" alt="عکس کارگاه"><div class="cap"><input type="text" value="${p.cap}" placeholder="توضیح عکس..." oninput="updPhoto('${p.id}',this.value)"></div><button class="del-photo" onclick="delPhoto('${p.id}')"><i class="ti ti-x" style="font-size:12px"></i></button>`;
+    card.innerHTML=`<img src="${p.src}" alt="عکس کارگاه"><div class="cap"><input type="text" value="${p.cap}" placeholder="توضیح / کامنت عکس..." oninput="updPhoto('${p.id}',this.value)"></div><button class="del-photo" onclick="delPhoto('${p.id}')"><i class="ti ti-x" style="font-size:12px"></i></button>`;
     g.appendChild(card);
   });
 }
 function updPhoto(id,val){const p=photos.find(x=>x.id==id);if(p)p.cap=val;}
 function delPhoto(id){photos=photos.filter(x=>x.id!=id);renderPhotos();}
 
-function addAct(a='',p='',h=''){const id=Date.now()+Math.random();acts.push({id,a,p,h});renderActs();}
-function renderActs(){
-  const c=document.getElementById('acts');c.innerHTML='';
-  acts.forEach(x=>{
-    const r=document.createElement('div');r.className='act-row';
-    r.innerHTML=`<input type="text" value="${x.a}" placeholder="شرح فعالیت" oninput="upd(acts,'${x.id}','a',this.value)"><input type="text" value="${x.p}" placeholder="نفر" style="text-align:center" oninput="upd(acts,'${x.id}','p',this.value)"><input type="text" value="${x.h}" placeholder="۸–۱۲" style="text-align:center" oninput="upd(acts,'${x.id}','h',this.value)"><button class="del-btn" onclick="rmItem(acts,'${x.id}',renderActs)"><i class="ti ti-trash"></i></button>`;
-    c.appendChild(r);
-  });
-}
-function addMat(n='',q='',price='',pay='تنخواه'){const id=Date.now()+Math.random();mats.push({id,n,q,price,pay});renderMats();}
-function renderMats(){
-  const c=document.getElementById('mats');c.innerHTML='';
-  mats.forEach(x=>{
-    const r=document.createElement('div');r.className='mat-row';
-    r.innerHTML=`<input type="text" value="${x.n}" placeholder="نام مصالح" oninput="upd(mats,'${x.id}','n',this.value)"><input type="text" value="${x.q}" placeholder="تعداد" style="text-align:center" oninput="upd(mats,'${x.id}','q',this.value)"><input type="text" value="${x.price}" placeholder="قیمت" style="text-align:center" oninput="upd(mats,'${x.id}','price',this.value);calcTotal()"><select onchange="upd(mats,'${x.id}','pay',this.value);calcTotal()"><option ${x.pay==='تنخواه'?'selected':''}>تنخواه</option><option ${x.pay==='شخصی'?'selected':''}>شخصی</option></select><button class="del-btn" onclick="rmItem(mats,'${x.id}',renderMats)"><i class="ti ti-trash"></i></button>`;
-    c.appendChild(r);
-  });calcTotal();
-}
-function calcTotal(){
-  let total=0,tankh=0,personal=0;
-  mats.forEach(x=>{
-    const p=parseFloat((x.price||'0').replace(/[^0-9.]/g,''))||0;
-    const q=parseFloat((x.q||'1').replace(/[^0-9.]/g,''))||1;
-    const amt=p*q;total+=amt;
-    if(x.pay==='شخصی')personal+=amt;else tankh+=amt;
-  });
-  const fmt=n=>n.toLocaleString('fa-IR')+' تومان';
-  document.getElementById('total-display').textContent=fmt(total);
-  document.getElementById('sum-tankh').textContent=fmt(tankh);
-  document.getElementById('sum-personal').textContent=fmt(personal);
-}
-function addIssue(t=''){const id=Date.now()+Math.random();issueList.push({id,t});renderIssues();}
-function renderIssues(){
-  const c=document.getElementById('issues');c.innerHTML='';
-  issueList.forEach(x=>{
-    const r=document.createElement('div');r.className='issue-row';
-    r.innerHTML=`<textarea placeholder="شرح مشکل..." oninput="upd(issueList,'${x.id}','t',this.value)">${x.t}</textarea><button class="del-btn" onclick="rmItem(issueList,'${x.id}',renderIssues)"><i class="ti ti-trash"></i></button>`;
-    c.appendChild(r);
-  });
-}
+// ── HELPERS ───────────────────────────────────────
 function upd(arr,id,field,val){const x=arr.find(i=>i.id==id);if(x)x[field]=val;}
 function rmItem(arr,id,render){const i=arr.findIndex(x=>x.id==id);if(i>-1)arr.splice(i,1);render();}
+function toFa(n){return String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);}
 
+// ── DATA ──────────────────────────────────────────
 function getData(){
+  const demoOk=[...document.querySelectorAll('#demo-list .citem.on')].map(d=>d.dataset.label);
+  const supFrom=document.getElementById('sup-from').value;
+  const supTo=document.getElementById('sup-to').value;
   return{
     num:document.getElementById('rnum').value,
-    date:document.getElementById('rdate').value,
+    date:getDateStr(),
     day:document.getElementById('rday').value,
     addr:document.getElementById('raddr').value,
     supName:document.getElementById('sup-name').value,
-    supTime:document.getElementById('sup-time').value,
+    supTime:supFrom&&supTo?`${supFrom} تا ${supTo}`:supFrom||supTo||'—',
     tomorrow:document.getElementById('tomorrow').value,
-    demoOk:[...document.querySelectorAll('#demo-list .citem.on')].map(d=>d.dataset.label),
-    acts:[...acts],mats:[...mats],issueList:[...issueList],photos:[...photos]
+    demoOk,acts:[...acts],mats:[...mats],issueList:[...issueList],photos:[...photos]
   };
 }
 function buildText(d){
-  let t=`گزارش روزانه بازسازی\n${'═'.repeat(36)}\nشماره: ${d.num||'—'}   تاریخ: ${d.date}   روز: ${d.day}\nواحد: ${d.addr||'—'}\nناظر: ${d.supName||'—'}   ساعت: ${d.supTime||'—'}\n\n`;
-  if(d.demoOk.length) t+=`چک‌لیست:\n${d.demoOk.map(s=>`  ✓ ${s}`).join('\n')}\n\n`;
-  if(d.acts.length){t+=`فعالیت‌ها:\n`;d.acts.forEach((a,i)=>t+=`  ${i+1}. ${a.a||'—'}  |  پرسنل: ${a.p||'—'}  |  ساعت: ${a.h||'—'}\n`);t+='\n';}
+  let t=`گزارش روزانه بازسازی\n${'═'.repeat(36)}\n`;
+  t+=`شماره: ${d.num||'—'}   تاریخ: ${d.date}   روز: ${d.day}\n`;
+  t+=`واحد: ${d.addr||'—'}\n`;
+  t+=`ناظر: ${d.supName||'—'}   ساعت بازدید: ${d.supTime}\n\n`;
+  if(d.demoOk.length)t+=`چک‌لیست تیم نظارت:\n${d.demoOk.map(s=>`  ✓ ${s}`).join('\n')}\n\n`;
+  if(d.acts.length){
+    t+=`فعالیت‌های انجام‌شده:\n`;
+    d.acts.forEach((a,i)=>{
+      let timeStr='';
+      if(a.from&&a.to)timeStr=` | ${a.from}–${a.to}`;
+      if(a.dur)timeStr+=(timeStr?' | ':' | ')+a.dur;
+      t+=`  ${i+1}. ${a.a||'—'}  |  پرسنل: ${a.p||'—'}${timeStr}\n`;
+    });t+='\n';
+  }
   if(d.mats.length){
-    t+=`مصالح:\n`;let total=0,tankh=0,personal=0;
-    d.mats.forEach((m,i)=>{const p=parseFloat((m.price||'0').replace(/[^0-9.]/g,''))||0,q=parseFloat((m.q||'1').replace(/[^0-9.]/g,''))||1,amt=p*q;total+=amt;if(m.pay==='شخصی')personal+=amt;else tankh+=amt;t+=`  ${i+1}. ${m.n||'—'}  ×${m.q}  ${m.price||'—'} ت  [${m.pay}]\n`;});
-    t+=`  جمع: ${total.toLocaleString('fa-IR')} | تنخواه: ${tankh.toLocaleString('fa-IR')} | شخصی: ${personal.toLocaleString('fa-IR')}\n\n`;
+    t+=`مصالح و تجهیزات:\n`;
+    let total=0,tankh=0,personal=0,eng=0;
+    d.mats.forEach((m,i)=>{
+      const p=parseFloat((m.price||'0').replace(/[^0-9.]/g,''))||0;
+      const q=parseFloat((m.q||'1').replace(/[^0-9.]/g,''))||1;
+      const amt=p*q;total+=amt;
+      if(m.pay==='شخصی')personal+=amt;else if(m.pay==='مهندس')eng+=amt;else tankh+=amt;
+      t+=`  ${i+1}. ${m.n||'—'}  ×${m.q}  |  ${m.price||'—'} ت  |  پرداخت: ${m.pay}\n`;
+    });
+    t+=`  ─ جمع: ${total.toLocaleString('fa-IR')} | تنخواه: ${tankh.toLocaleString('fa-IR')} | شخصی: ${personal.toLocaleString('fa-IR')} | مهندس: ${eng.toLocaleString('fa-IR')}\n\n`;
   }
   if(d.issueList.length){t+=`مشکلات:\n`;d.issueList.forEach((x,i)=>t+=`  ${i+1}. ${x.t}\n`);t+='\n';}
-  if(d.photos.length) t+=`تصاویر پیوست: ${d.photos.length} عکس\n${d.photos.filter(p=>p.cap).map((p,i)=>`  ${i+1}. ${p.cap}`).join('\n')}\n`;
-  if(d.tomorrow) t+=`\nبرنامه فردا:\n  ${d.tomorrow}`;
+  if(d.photos.length){t+=`تصاویر پیوست: ${d.photos.length} عکس\n`;d.photos.filter(p=>p.cap).forEach((p,i)=>t+=`  ${i+1}. ${p.cap}\n`);t+='\n';}
+  if(d.tomorrow)t+=`برنامه فردا:\n  ${d.tomorrow}`;
   return t;
 }
+
+// ── PREVIEW ───────────────────────────────────────
 function genPreview(){
   const d=getData();
   document.getElementById('prev-content').textContent=buildText(d);
   const pg=document.getElementById('prev-photos');pg.innerHTML='';
   if(d.photos.length){
-    const grid=document.createElement('div');grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px';
-    d.photos.forEach(p=>{const card=document.createElement('div');card.style.cssText='border-radius:6px;overflow:hidden;border:1px solid #e0deda';card.innerHTML=`<img src="${p.src}" style="width:100%;height:90px;object-fit:cover;display:block">${p.cap?`<div style="padding:4px 7px;font-size:11px;color:#6b6860">${p.cap}</div>`:''}`; grid.appendChild(card);});
+    const grid=document.createElement('div');
+    grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px';
+    d.photos.forEach(p=>{
+      const card=document.createElement('div');
+      card.style.cssText='border-radius:8px;overflow:hidden;border:1px solid var(--border)';
+      card.innerHTML=`<img src="${p.src}" style="width:100%;height:90px;object-fit:cover;display:block">${p.cap?`<div style="padding:5px 8px;font-size:11px;color:var(--text2);background:var(--bg2)">${p.cap}</div>`:''}`;
+      grid.appendChild(card);
+    });
     pg.appendChild(grid);
   }
   sw('preview',document.querySelectorAll('.tab')[1]);
 }
+
+// ── SAVE / SEND ───────────────────────────────────
 function saveLocal(){
   const d=getData();
   archive.unshift({...d,savedAt:new Date().toLocaleTimeString('fa-IR')});
-  localStorage.setItem('reports',JSON.stringify(archive));
-  renderArch();showToast('گزارش ذخیره شد ✓');
+  try{localStorage.setItem('reports',JSON.stringify(archive));}catch(e){}
+  renderArch();showToast('گزارش ذخیره شد','ok');
 }
+
 async function saveAndSend(){
   const d=getData();
-  // save first
   archive.unshift({...d,savedAt:new Date().toLocaleTimeString('fa-IR')});
-  localStorage.setItem('reports',JSON.stringify(archive));
+  try{localStorage.setItem('reports',JSON.stringify(archive));}catch(e){}
   renderArch();
   if(!settings.pubkey||!settings.service||!settings.template||!settings.email){
-    showToast('⚠️ ابتدا تنظیمات ایمیل را پر کن',true);
+    showToast('ابتدا تنظیمات ایمیل را پر کن','error');
     sw('settings',document.querySelectorAll('.tab')[3]);return;
   }
   const btn=document.getElementById('send-btn');
-  btn.style.opacity='.6';btn.innerHTML='<i class="ti ti-loader"></i>در حال ارسال...';
+  btn.style.opacity='.5';btn.innerHTML='<i class="ti ti-loader"></i>در حال ارسال...';
   try{
-    emailjs.init(settings.pubkey);
     await emailjs.send(settings.service,settings.template,{
       to_email:settings.email,
       subject:`گزارش روزانه — ${d.date} — ${d.addr||'بازسازی'}`,
       report_text:buildText(d),
-      report_date:d.date,report_num:d.num||'—',
+      report_date:d.date,
+      report_num:d.num||'—',
       supervisor:d.supName||'—',
-      issues_count:String(d.issueList.length),
-      photos_count:String(d.photos.length),
     });
-    showToast('گزارش ذخیره و ایمیل ارسال شد ✓');
+    showToast('گزارش ذخیره و ایمیل ارسال شد ✓','ok');
   }catch(err){
-    showToast('خطا: '+(err.text||err),true);
+    showToast('خطا در ارسال: '+(err.text||JSON.stringify(err)),'error');
   }finally{
     btn.style.opacity='1';btn.innerHTML='<i class="ti ti-send"></i>ذخیره و ارسال ایمیل';
   }
 }
+
+// ── ARCHIVE ───────────────────────────────────────
 function renderArch(){
   archive=JSON.parse(localStorage.getItem('reports')||'[]');
   const c=document.getElementById('arch-list');
@@ -444,7 +833,7 @@ function renderArch(){
   archive.forEach((r,i)=>{
     const hasIssue=r.issueList&&r.issueList.length>0;
     const d=document.createElement('div');d.className='arch-item';
-    d.innerHTML=`<div><div style="font-size:13px;font-weight:600">${r.date} — ${r.day}</div><div style="font-size:12px;color:var(--text2);margin-top:2px">ش${r.num||'—'} · ${(r.acts||[]).length} فعالیت · ${(r.photos||[]).length} عکس · ${r.savedAt}</div></div><div style="display:flex;gap:6px;align-items:center"><span class="badge ${hasIssue?'warn':'ok'}">${hasIssue?'مشکل':'بدون مشکل'}</span><button class="btn" style="padding:5px 10px;font-size:12px" onclick="loadArch(${i})"><i class="ti ti-eye"></i>بارگذاری</button></div>`;
+    d.innerHTML=`<div><div style="font-size:13px;font-weight:600">${r.date} — ${r.day}</div><div style="font-size:12px;color:var(--text2);margin-top:3px">ش${r.num||'—'} · ${(r.acts||[]).length} فعالیت · ${(r.photos||[]).length} عکس · ${r.savedAt}</div></div><div style="display:flex;gap:7px;align-items:center"><span class="badge ${hasIssue?'warn':'ok'}">${hasIssue?'مشکل':'بدون مشکل'}</span><button class="btn" style="padding:5px 12px;font-size:12px" onclick="loadArch(${i})"><i class="ti ti-eye"></i>بارگذاری</button></div>`;
     c.appendChild(d);
   });
 }
@@ -453,21 +842,58 @@ function loadArch(i){
   const r=archive[i];
   acts=(r.acts||[]).map(x=>({...x}));mats=(r.mats||[]).map(x=>({...x}));
   issueList=(r.issueList||[]).map(x=>({...x}));photos=(r.photos||[]).map(x=>({...x}));
-  ['rnum','rdate','raddr','sup-name','sup-time','tomorrow'].forEach(id=>{
-    const map={rnum:'num',rdate:'date',raddr:'addr','sup-name':'supName','sup-time':'supTime',tomorrow:'tomorrow'};
-    document.getElementById(id).value=r[map[id]]||'';
-  });
+  document.getElementById('rnum').value=r.num||'';
+  document.getElementById('raddr').value=r.addr||'';
+  document.getElementById('sup-name').value=r.supName||'';
+  document.getElementById('tomorrow').value=r.tomorrow||'';
   renderActs();renderMats();renderIssues();renderPhotos();
-  sw('form',document.querySelectorAll('.tab')[0]);showToast('گزارش بارگذاری شد');
+  sw('form',document.querySelectorAll('.tab')[0]);
+  showToast('گزارش بارگذاری شد','ok');
 }
-function showToast(msg,isError=false){
-  const t=document.getElementById('toast');document.getElementById('toast-msg').textContent=msg;
-  t.className='toast show'+(isError?' error':'');setTimeout(()=>t.className='toast',3500);
+
+// ── SETTINGS ──────────────────────────────────────
+function loadSettingsUI(){
+  if(settings.pubkey)document.getElementById('cfg-pubkey').value=settings.pubkey;
+  if(settings.service)document.getElementById('cfg-service').value=settings.service;
+  if(settings.template)document.getElementById('cfg-template').value=settings.template;
+  if(settings.email)document.getElementById('cfg-email').value=settings.email;
+  if(settings.project)document.getElementById('cfg-project').value=settings.project;
+}
+function saveSettings(){
+  settings={
+    pubkey:document.getElementById('cfg-pubkey').value.trim(),
+    service:document.getElementById('cfg-service').value.trim(),
+    template:document.getElementById('cfg-template').value.trim(),
+    email:document.getElementById('cfg-email').value.trim(),
+    project:document.getElementById('cfg-project').value.trim(),
+  };
+  localStorage.setItem('settings',JSON.stringify(settings));
+  if(settings.pubkey)emailjs.init(settings.pubkey);
+  document.getElementById('proj-sub').textContent=settings.project||'بازسازی آپارتمان';
+  showToast('تنظیمات ذخیره شد ✓','ok');
+}
+
+// ── UI ────────────────────────────────────────────
+function showToast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.className='toast show '+(type==='error'?'error':'ok');
+  setTimeout(()=>t.className='toast',3500);
 }
 function sw(name,el){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
   ['form','preview','archive','settings'].forEach(n=>document.getElementById('tab-'+n).style.display=n===name?'block':'none');
 }
+
+// ── EMAILJS ───────────────────────────────────────
+(function(){
+  const s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+  s.onload=()=>{if(settings.pubkey)emailjs.init(settings.pubkey);};
+  document.head.appendChild(s);
+})();
+
 init();
 </script>
 </body>
