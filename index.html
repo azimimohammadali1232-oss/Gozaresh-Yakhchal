@@ -641,7 +641,23 @@ function handlePhotos(files){
   [...files].forEach(file=>{
     if(!file.type.startsWith('image/'))return;
     const reader=new FileReader();
-    reader.onload=e=>{photos.push({id:Date.now()+Math.random(),src:e.target.result,cap:''});renderPhotos();};
+    reader.onload=e=>{
+      // compress image before storing
+      const img=new Image();
+      img.onload=()=>{
+        const canvas=document.createElement('canvas');
+        const maxW=1200,maxH=1200;
+        let w=img.width,h=img.height;
+        if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+        if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}
+        canvas.width=w;canvas.height=h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        const compressed=canvas.toDataURL('image/jpeg',0.7);
+        photos.push({id:Date.now()+Math.random(),src:compressed,cap:''});
+        renderPhotos();
+      };
+      img.src=e.target.result;
+    };
     reader.readAsDataURL(file);
   });
 }
@@ -697,12 +713,28 @@ function saveLocal(){
   if(saved){
     renderArch();
     showToast('✓ گزارش شماره '+(d.num||'—')+' ذخیره شد','ok');
-    // flash the archive tab
     const archTab=document.querySelectorAll('.tab')[1];
     archTab.style.color='var(--green)';
     setTimeout(()=>archTab.style.color='',2000);
   }else{
-    showToast('خطا: فضای مرورگر پر است — گزارش قدیمی را حذف کن','error');
+    // try saving without photos
+    try{
+      const entryNoPhotos={...entry,photos:[]};
+      const archiveNoPhotos=[entryNoPhotos,...archive.slice(1)];
+      localStorage.setItem('reports',JSON.stringify(archiveNoPhotos));
+      archive=archiveNoPhotos;
+      renderArch();
+      showToast('⚠️ ذخیره شد ولی عکس‌ها حذف شدند (فضا پر بود)','error');
+    }catch(e2){
+      // remove oldest reports until it fits
+      let trimmed=[...archive];
+      while(trimmed.length>1){
+        trimmed.pop();
+        try{localStorage.setItem('reports',JSON.stringify(trimmed));archive=trimmed;break;}catch(e3){}
+      }
+      renderArch();
+      showToast('⚠️ گزارش‌های قدیمی حذف و ذخیره شد','error');
+    }
   }
 }
 function saveAndPDF(){saveLocal();generatePDF();}
