@@ -738,7 +738,7 @@ function generatePDF(){
     .issue-item{background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;margin-bottom:6px;font-size:12px}
     .photo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:4px}
     .photo-card{border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;break-inside:avoid;page-break-inside:avoid}
-    .photo-card img{width:100%;height:280px;object-fit:cover;display:block}
+    .photo-card img{width:100%;height:auto;display:block;max-width:100%}
     .photo-cap{padding:8px 10px;font-size:12px;color:#555;background:#f9fafb;font-weight:500}
     .footer{margin-top:24px;padding-top:14px;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;font-size:11px;color:#999}
     .dur-badge{display:inline-block;background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;margin-right:4px}
@@ -746,16 +746,18 @@ function generatePDF(){
     .pay-tankh{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe}
     .pay-personal{background:#fdf4ff;color:#9333ea;border:1px solid #e9d5ff}
     .pay-eng{background:#fff7ed;color:#ea580c;border:1px solid #fed7aa}
+    /* FOR SAVING AS PDF: open in Chrome, Ctrl+P, Destination=Save as PDF, Paper=None/Custom */
     @media print{
-      @page{size:auto;margin:10mm 12mm}
-      body{padding:0}
+      @page{size:auto;margin:12mm 14mm}
+      *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      body{padding:0!important}
       .section{break-inside:avoid;page-break-inside:avoid}
       .photo-card{break-inside:avoid;page-break-inside:avoid}
-      .grand-box{break-inside:avoid}
+      .grand-box{break-inside:avoid;page-break-inside:avoid}
+      .photo-grid{grid-template-columns:1fr 1fr}
     }
-    /* ONE LONG PAGE — no forced breaks */
     html{height:auto}
-    body{width:800px;margin:0 auto}
+    body{width:820px;margin:0 auto;padding:24px}
   `;
 
   let html=`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><style>${css}</style></head><body>`;
@@ -872,11 +874,15 @@ function generatePDF(){
   html+=`<div class="footer"><span>گزارش روزانه بازسازی — ${settings.project||''}</span><span>تاریخ چاپ: ${new Date().toLocaleDateString('fa-IR')}</span></div>`;
   html+=`</body></html>`;
 
-  // open in new tab as one long continuous page — user can Save as PDF
-  const w=window.open('','_blank');
-  if(!w){showToast('لطفاً pop-up را در مرورگر فعال کن','error');return;}
-  w.document.write(html);w.document.close();
-  showToast('گزارش باز شد — Ctrl+P → Save as PDF','ok');
+  // Download as HTML file — open in Chrome then Ctrl+P > Save as PDF > Paper: None
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const d2=getData();
+  const fname='gozaresh-'+(d2.num||'1')+'-'+(d2.date||'').replace(/ /g,'_')+'.html';
+  a.href=url;a.download=fname;document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url),3000);
+  showToast('فایل دانلود شد — در Chrome باز کن و Ctrl+P → Save as PDF','ok');
 }
 
 // ── ARCHIVE ───────────────────────────────────────
