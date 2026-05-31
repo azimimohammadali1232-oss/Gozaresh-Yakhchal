@@ -365,8 +365,9 @@ let settings={};
 
 // ── INIT ──────────────────────────────────────────
 function init(){
-  try{archive=JSON.parse(localStorage.getItem('reports')||'[]');}catch(e){archive=[];}
-  try{settings=JSON.parse(localStorage.getItem('settings')||'{}');}catch(e){settings={};}
+  try{const raw=localStorage.getItem('reports');archive=raw?JSON.parse(raw):[];}catch(e){archive=[];}
+  try{const rs=localStorage.getItem('settings');settings=rs?JSON.parse(rs):{};}catch(e){settings={};}
+  console.log('Loaded',archive.length,'reports from storage');
   document.getElementById('proj-sub').textContent=settings.project||'بازسازی آپارتمان';
   if(settings.supname)document.getElementById('sup-name').value=settings.supname;
   if(settings.project)document.getElementById('cfg-project').value=settings.project;
@@ -378,6 +379,9 @@ function init(){
   zone.addEventListener('drop',e=>{e.preventDefault();zone.style.borderColor='';handlePhotos(e.dataTransfer.files);});
   document.addEventListener('click',e=>{if(!e.target.closest('.date-picker-wrap'))closeCal();});
   addAct();addMat();addFood();
+  // warn if localStorage not available
+  try{localStorage.setItem('_test','1');localStorage.removeItem('_test');}
+  catch(e){showToast('هشدار: ذخیره‌سازی در این مرورگر غیرفعاله','error');}
 }
 
 function saveSettings(){
@@ -678,9 +682,28 @@ function getData(){
 // ── SAVE ──────────────────────────────────────────
 function saveLocal(){
   const d=getData();
-  archive.unshift({...d,savedAt:new Date().toLocaleTimeString('fa-IR')});
-  try{localStorage.setItem('reports',JSON.stringify(archive));}catch(e){}
-  renderArch();showToast('گزارش ذخیره شد','ok');
+  const entry={...d,acts:[...acts],mats:[...mats],foods:[...foods],issueList:[...issueList],photos:[...photos],savedAt:new Date().toLocaleTimeString('fa-IR')};
+  // reload from storage first to avoid overwrite
+  try{archive=JSON.parse(localStorage.getItem('reports')||'[]');}catch(e){archive=[];}
+  archive.unshift(entry);
+  let saved=false;
+  try{
+    const str=JSON.stringify(archive);
+    localStorage.setItem('reports',str);
+    // verify it was actually saved
+    const check=localStorage.getItem('reports');
+    if(check&&check.length>2)saved=true;
+  }catch(e){saved=false;}
+  if(saved){
+    renderArch();
+    showToast('✓ گزارش شماره '+(d.num||'—')+' ذخیره شد','ok');
+    // flash the archive tab
+    const archTab=document.querySelectorAll('.tab')[1];
+    archTab.style.color='var(--green)';
+    setTimeout(()=>archTab.style.color='',2000);
+  }else{
+    showToast('خطا: فضای مرورگر پر است — گزارش قدیمی را حذف کن','error');
+  }
 }
 function saveAndPDF(){saveLocal();generatePDF();}
 
@@ -887,7 +910,10 @@ function generatePDF(){
 
 // ── ARCHIVE ───────────────────────────────────────
 function renderArch(){
-  try{archive=JSON.parse(localStorage.getItem('reports')||'[]');}catch(e){archive=[];}
+  try{
+    const raw=localStorage.getItem('reports');
+    archive=raw?JSON.parse(raw):[];
+  }catch(e){archive=[];}
   const c=document.getElementById('arch-list');
   if(!archive.length){c.innerHTML='<div style="color:var(--text2);padding:8px 0;font-size:13px">هنوز گزارشی ذخیره نشده.</div>';return;}
   c.innerHTML='';
