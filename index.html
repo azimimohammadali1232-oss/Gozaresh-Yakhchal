@@ -81,6 +81,8 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .tbl-row{display:grid;gap:8px;align-items:center;margin-bottom:7px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:8px 10px}
 .tbl-row input,.tbl-row select{border:none;background:transparent;padding:4px 6px;font-size:13px}
 .tbl-row input:focus{outline:none;background:var(--bg3);border-radius:4px}
+.tbl-row .del-btn{background:var(--red-bg)!important;border:1px solid var(--red-border)!important;color:var(--red)!important;cursor:pointer;padding:0;font-size:14px;display:flex;align-items:center;justify-content:center;border-radius:50%!important;width:28px!important;height:28px!important;min-width:28px;flex-shrink:0}
+.tbl-row .del-btn:hover{background:var(--red)!important;color:#fff!important}
 .act-cols{grid-template-columns:2fr 100px 1fr 28px}
 .mat-cols{grid-template-columns:2fr 70px 110px 100px 28px}
 .food-cols{grid-template-columns:2fr 70px 110px 100px 28px}
@@ -88,8 +90,8 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 
 .add-btn{background:none;border:1px dashed var(--border2);color:var(--text2);border-radius:var(--rs);padding:8px 12px;cursor:pointer;font-size:12px;width:100%;margin-top:6px;font-family:'Vazirmatn',sans-serif;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s}
 .add-btn:hover{background:var(--bg2);color:var(--text)}
-.del-btn{background:none;border:none;cursor:pointer;color:var(--text3);padding:0;font-size:16px;display:flex;align-items:center;transition:color .15s}
-.del-btn:hover{color:var(--red)}
+.del-btn{background:var(--red-bg);border:1px solid var(--red-border);cursor:pointer;color:var(--red);padding:0;font-size:14px;display:flex;align-items:center;justify-content:center;border-radius:50%;width:28px;height:28px;min-width:28px;flex-shrink:0;transition:all .15s}
+.del-btn:hover{background:var(--red);color:#fff}
 
 /* SUMMARY BOX */
 .sum-box{background:var(--bg2);border-radius:var(--rs);padding:12px 14px;margin-top:10px;border:1px solid var(--border)}
@@ -267,22 +269,11 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 </div>
 
 <div class="card">
-  <div class="card-header"><i class="ti ti-user-check"></i>ناظر حاضر در کارگاه</div>
+  <div class="card-header"><i class="ti ti-user-check"></i>ناظرین حاضر در کارگاه</div>
   <div class="card-body">
-    <div class="grid2">
-      <div class="field"><label>نام ناظر</label><input id="sup-name" type="text" placeholder="نام و نام‌خانوادگی"></div>
-      <div class="field">
-        <label>ساعت بازدید</label>
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <div style="display:flex;gap:8px;align-items:center">
-            <select id="sup-from" style="flex:1" onchange="calcSupDur()"><option value="">از ساعت</option></select>
-            <span style="color:var(--text2);font-weight:700">تا</span>
-            <select id="sup-to" style="flex:1" onchange="calcSupDur()"><option value="">تا ساعت</option></select>
-          </div>
-          <div class="dur-label" id="sup-dur">مدت حضور محاسبه می‌شود</div>
-        </div>
-      </div>
-    </div>
+    <div class="tbl-hdr" style="grid-template-columns:2fr 1fr 1fr 80px 28px"><span>نام ناظر</span><span>از ساعت</span><span>تا ساعت</span><span>مدت حضور</span><span></span></div>
+    <div id="sups"></div>
+    <button class="add-btn" onclick="addSup()"><i class="ti ti-plus"></i>افزودن ناظر</button>
   </div>
 </div>
 
@@ -369,7 +360,7 @@ function init(){
   try{const rs=localStorage.getItem('settings');settings=rs?JSON.parse(rs):{};}catch(e){settings={};}
   console.log('Loaded',archive.length,'reports from storage');
   document.getElementById('proj-sub').textContent=settings.project||'بازسازی آپارتمان';
-  if(settings.supname)document.getElementById('sup-name').value=settings.supname;
+  // sups initialized empty, add one by default
   if(settings.project)document.getElementById('cfg-project').value=settings.project;
   if(settings.supname)document.getElementById('cfg-supname').value=settings.supname;
   buildCalYear();setTodayDate();buildTimePickers();buildChecklist();renderArch();
@@ -378,7 +369,7 @@ function init(){
   zone.addEventListener('dragleave',()=>zone.style.borderColor='');
   zone.addEventListener('drop',e=>{e.preventDefault();zone.style.borderColor='';handlePhotos(e.dataTransfer.files);});
   document.addEventListener('click',e=>{if(!e.target.closest('.date-picker-wrap'))closeCal();});
-  addAct();addMat();addFood();
+  addAct();addMat();addFood();addSup();
   // warn if localStorage not available
   try{localStorage.setItem('_test','1');localStorage.removeItem('_test');}
   catch(e){showToast('هشدار: ذخیره‌سازی در این مرورگر غیرفعاله','error');}
@@ -482,10 +473,7 @@ function getDateStr(){
 
 // ── TIME ──────────────────────────────────────────
 function buildTimePickers(){
-  ['sup-from','sup-to'].forEach(id=>{
-    const sel=document.getElementById(id);
-    for(let h=6;h<=22;h++){['00','30'].forEach(m=>{const o=document.createElement('option');o.value=`${h}:${m}`;o.textContent=toFa(h)+':'+m;sel.appendChild(o);});}
-  });
+  // time pickers are now built dynamically in renderSups via buildHourOpts
 }
 function calcDur(from,to){
   if(!from||!to)return '';
@@ -498,13 +486,31 @@ function calcDur(from,to){
   if(m===0)return `${toFa(h)} ساعت`;
   return `${toFa(h)} ساعت و ${toFa(m)} دقیقه`;
 }
-function calcSupDur(){
-  const from=document.getElementById('sup-from').value;
-  const to=document.getElementById('sup-to').value;
-  const el=document.getElementById('sup-dur');
-  const dur=calcDur(from,to);
-  if(dur){el.textContent='مدت حضور: '+dur;el.className='dur-label ok';}
-  else{el.textContent='مدت حضور محاسبه می‌شود';el.className='dur-label';}
+let sups=[];
+function addSup(name='',from='',to=''){
+  const id=Date.now()+Math.random();
+  sups.push({id,name,from,to});
+  renderSups();
+}
+function renderSups(){
+  const c=document.getElementById('sups');c.innerHTML='';
+  sups.forEach(x=>{
+    const dur=calcDur(x.from,x.to);
+    const row=document.createElement('div');
+    row.className='tbl-row';
+    row.style.gridTemplateColumns='2fr 1fr 1fr 80px 28px';
+    row.innerHTML=`
+      <input type="text" value="${x.name}" placeholder="نام و نام‌خانوادگی" oninput="upd(sups,'${x.id}','name',this.value)">
+      <select onchange="upd(sups,'${x.id}','from',this.value);renderSups()">
+        <option value="">از ساعت</option>${buildHourOpts(x.from)}
+      </select>
+      <select onchange="upd(sups,'${x.id}','to',this.value);renderSups()">
+        <option value="">تا ساعت</option>${buildHourOpts(x.to)}
+      </select>
+      <div class="dur-label ${dur?'ok':''}" style="font-size:11px">${dur||'—'}</div>
+      <button class="del-btn" onclick="rmItem(sups,'${x.id}',renderSups)"><i class="ti ti-trash"></i></button>`;
+    c.appendChild(row);
+  });
 }
 function buildHourOpts(sel){
   let o='';
@@ -680,15 +686,11 @@ function toFa(n){return String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);}
 // ── DATA ──────────────────────────────────────────
 function getData(){
   const demoOk=[...document.querySelectorAll('#demo-list .citem.on')].map(d=>d.dataset.label);
-  const supFrom=document.getElementById('sup-from').value;
-  const supTo=document.getElementById('sup-to').value;
-  const supDur=calcDur(supFrom,supTo);
   return{
     num:document.getElementById('rnum').value,
     date:getDateStr(),day:document.getElementById('rday').value,
     addr:document.getElementById('raddr').value,
-    supName:document.getElementById('sup-name').value,
-    supFrom,supTo,supDur,
+    sups:[...sups],
     tomorrow:document.getElementById('tomorrow').value,
     demoOk,acts:[...acts],mats:[...mats],foods:[...foods],
     issueList:[...issueList],photos:[...photos]
@@ -842,8 +844,7 @@ function generatePDF(){
     <div class="meta-item"><b>تاریخ</b><span>${d.date}</span></div>
     <div class="meta-item"><b>روز هفته</b><span>${d.day}</span></div>
     <div class="meta-item"><b>آدرس / واحد</b><span>${d.addr||'—'}</span></div>
-    <div class="meta-item"><b>ناظر</b><span>${d.supName||'—'}</span></div>
-    <div class="meta-item"><b>ساعت بازدید</b><span>${d.supFrom&&d.supTo?d.supFrom+'–'+d.supTo:'—'}${d.supDur?' ('+d.supDur+')':''}</span></div>
+    <div class="meta-item" style="grid-column:span 3"><b>ناظرین حاضر</b><span>${(d.sups||[]).map(s=>s.name+(s.from&&s.to?' ('+s.from+'–'+s.to+(calcDur(s.from,s.to)?' | '+calcDur(s.from,s.to):'')+')'  :'')).join(' ، ')||'—'}</span></div>
   </div></div></div>`;
 
   // Checklist
@@ -977,13 +978,13 @@ function loadArch(i){
   acts=(r.acts||[]).map(x=>({...x}));
   mats=(r.mats||[]).map(x=>({...x}));
   foods=(r.foods||[]).map(x=>({...x}));
+  sups=(r.sups||[]).map(x=>({...x}));
   issueList=(r.issueList||[]).map(x=>({...x}));
   photos=(r.photos||[]).map(x=>({...x}));
   document.getElementById('rnum').value=r.num||'';
   document.getElementById('raddr').value=r.addr||'';
-  document.getElementById('sup-name').value=r.supName||'';
   document.getElementById('tomorrow').value=r.tomorrow||'';
-  renderActs();renderMats();renderFoods();renderIssues();renderPhotos();
+  renderActs();renderMats();renderFoods();renderSups();renderIssues();renderPhotos();
   sw('form',document.querySelectorAll('.tab')[0]);
   showToast('گزارش بارگذاری شد','ok');
 }
